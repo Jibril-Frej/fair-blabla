@@ -5,7 +5,8 @@
 #   sbatch --gres=gpu:h200:1 --export=ALL,MODEL_ID=Qwen/Qwen3.8-27B,SLUG=qwen3.8-27b-bf16,\
 #     DISPLAY_NAME="Qwen3.8-27B (BF16)",PRECISION=BF16,KIND=chat,\
 #     METHODS="linguistic_indicators demographic_axes guardian_criteria biasalert_rag" slurm/serve_and_run.sbatch
-# Optional: TP (tensor parallel size, default 1), MAX_LEN (default 16384), VLLM_ARGS (extra server flags).
+# Optional: TP (tensor parallel size, default 1), MAX_LEN (default 16384), VLLM_ARGS (extra server flags),
+#   STRUCTURED=1 (constrained answers, see scripts/run_methods.py --structured).
 #SBATCH --job-name=fb-run
 #SBATCH --qos=normal
 #SBATCH --cpus-per-task=16
@@ -37,6 +38,7 @@ grep -m1 -i "vllm api server version\|version" "logs/vllm-$SLUG-$SLURM_JOB_ID.lo
 
 EXTRA=()
 [ "$KIND" = chat ] && EXTRA+=(--no-thinking)
+[ -n "${STRUCTURED:-}" ] && EXTRA+=(--structured)
 # shellcheck disable=SC2086
 apptainer exec "$SIF" python3 scripts/run_methods.py --base-url "http://127.0.0.1:$PORT/v1" --model model \
   --slug "$SLUG" --display "$DISPLAY_NAME" --model-id "$MODEL_ID" --precision "$PRECISION" --kind "$KIND" \

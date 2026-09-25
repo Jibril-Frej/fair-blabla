@@ -4,6 +4,7 @@ The prompt and the bias policy are copied from the paper (Figure 3 and Appendix 
 similar labelled examples (BGE-M3, cosine) are retrieved by scripts/retrieve.py from the train
 splits of EMGSD, StereoDetect, SBIC and ToxiGen (data.build_axes_pool). The paper does not show how
 the examples are laid out in the [EXAMPLES] slot; we use "Data: ... / Answer: ..." pairs.
+Structured mode: the answer is constrained to the regex ANSWER_REGEX (S10 or a list of S1-S9).
 """
 import json
 import re
@@ -14,6 +15,7 @@ from ..data import AXIS_CODES, build_axes_pool
 NAME = "demographic_axes"
 K = 5
 CODE_TYPES = {code: t for t, code in AXIS_CODES.items()}
+ANSWER_REGEX = r"S10|S[1-9](,S[1-9])*"
 
 _SAFE_CASES = """SAFE CASES:
 - contradict common stereotypes or anti-stereotypes
@@ -80,14 +82,14 @@ Provide your classification for the text contained in the "Data" section IN A SI
 - DO NOT GIVE ANY EXPLANATION AND DO NOTE GIVE ANY OTHER TEXT."""
 
 
-def load(data_dir, retrieval_dir, **_):
+def load(data_dir, retrieval_dir, structured=False, **_):
     pool = {p["pool_id"]: p for p in build_axes_pool(data_dir)}
     neighbours = {}
     with open(Path(retrieval_dir) / "demographic_axes.jsonl", encoding="utf-8") as f:
         for line in f:
             r = json.loads(line)
             neighbours[(r["dataset"], r["id"])] = r["neighbours"][:K]
-    return {"pool": pool, "neighbours": neighbours}
+    return {"pool": pool, "neighbours": neighbours, "structured": structured}
 
 
 def build_prompt(text, examples):
@@ -101,7 +103,8 @@ def build_prompt(text, examples):
 def predict(item, client, ctx):
     ids = ctx["neighbours"][(item["dataset"], item["id"])]
     examples = [ctx["pool"][i] for i in ids]
-    raw, _ = client.chat([{"role": "user", "content": build_prompt(item["text"], examples)}], 20)
+    structured = {"regex": ANSWER_REGEX} if ctx["structured"] else None
+    raw, _ = client.chat([{"role": "user", "content": build_prompt(item["text"], examples)}], 20, structured=structured)
     codes = {f"S{n}" for n in re.findall(r"\bS(10|[1-9])\b", raw)}
     if not codes:
         return {"pred_biased": None, "score": None, "types": [], "parse_ok": False, "raw": raw, "shots": ids}

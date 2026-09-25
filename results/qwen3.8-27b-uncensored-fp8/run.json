@@ -1,0 +1,12 @@
+{
+  "display": "Qwen3.8-27B-Uncensored (FP8)",
+  "model_id": "orcarouter/Qwen3.8-27B-Uncensored-FP8",
+  "precision": "FP8",
+  "kind": "chat",
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "structured_outputs": false,
+  "decoding": "temperature 0, top_p 1, seed 0",
+  "date": "2026-09-25"
+}

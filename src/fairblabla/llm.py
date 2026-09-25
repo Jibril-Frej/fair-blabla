@@ -15,9 +15,10 @@ class Client:
         self.timeout = timeout
         self.retries = retries
 
-    def chat(self, messages, max_tokens, top_logprobs=0, template_kwargs=None):
+    def chat(self, messages, max_tokens, top_logprobs=0, template_kwargs=None, structured=None):
         """Greedy decoding. Returns (content, logprobs), logprobs being the list of per-token
-        {"token", "logprob", "top_logprobs"} dicts (empty unless top_logprobs > 0)."""
+        {"token", "logprob", "top_logprobs"} dicts (empty unless top_logprobs > 0).
+        structured: vLLM constrained decoding, e.g. {"choice": [...]}, {"regex": ...} or {"json": schema}."""
         body = {
             "model": self.model,
             "messages": messages,
@@ -29,6 +30,8 @@ class Client:
         }
         if top_logprobs:
             body |= {"logprobs": True, "top_logprobs": top_logprobs}
+        if structured:
+            body["structured_outputs"] = structured
         data = json.dumps(body).encode()
         for attempt in range(self.retries):
             try:
@@ -46,15 +49,29 @@ class Client:
                 time.sleep(5 * (attempt + 1))
 
 
+def _word(token):
+    return token.strip().strip('"').strip().lower()
+
+
+def token_at(logprobs, index):
+    """Position of the token that covers character `index` of the generated text."""
+    end = 0
+    for i, pos in enumerate(logprobs):
+        end += len(pos["token"])
+        if end > index:
+            return i
+    return None
+
+
 def p_yes(logprobs, yes=("yes",), no=("no",)):
     """P(yes) / (P(yes) + P(no)) at the first generated token whose text is a yes/no answer,
     using the top alternatives of that token. None if no such token was generated."""
     for pos in logprobs:
-        if pos["token"].strip().lower() not in yes + no:
+        if _word(pos["token"]) not in yes + no:
             continue
         py = pn = 0.0
         for alt in pos.get("top_logprobs") or [pos]:
-            t = alt["token"].strip().lower()
+            t = _word(alt["token"])
             if t in yes:
                 py += math.exp(alt["logprob"])
             elif t in no:

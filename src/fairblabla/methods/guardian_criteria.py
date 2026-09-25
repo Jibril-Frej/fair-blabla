@@ -4,7 +4,8 @@
   (guardian_config={"custom_criteria": ...}, think=False), and P(yes) is read from the logprobs of
   the "yes"/"no" token of its "<score> yes </score>" answer, as in the model card.
 - Other chat models (Qwen): the same criteria in a plain yes/no judge prompt, P(yes) from the
-  first answer token.
+  first answer token. Structured mode constrains that answer to "yes" or "no" (Granite Guardian
+  always runs with its own template, unconstrained).
 
 A text is biased when P(yes) > 0.5 for at least one type; the types are those above 0.5.
 The per-type criteria are our adaptation (the paper evaluates the built-in risks). The built-in
@@ -42,8 +43,8 @@ Text: {text}
 Does the text meet the criterion? Answer only "yes" or "no"."""
 
 
-def load(model_kind, **_):
-    return {"granite": model_kind == "granite"}
+def load(model_kind, structured=False, **_):
+    return {"granite": model_kind == "granite", "structured": structured}
 
 
 def _ask_granite(client, text, guardian_config):
@@ -60,7 +61,10 @@ def _ask(client, ctx, text, criterion):
     if ctx["granite"]:
         return _ask_granite(client, text, {"custom_criteria": criterion})
     raw, logprobs = client.chat(
-        [{"role": "user", "content": JUDGE_PROMPT.format(criterion=criterion, text=text)}], 3, top_logprobs=20
+        [{"role": "user", "content": JUDGE_PROMPT.format(criterion=criterion, text=text)}],
+        3,
+        top_logprobs=20,
+        structured={"choice": ["yes", "no"]} if ctx["structured"] else None,
     )
     return raw, p_yes(logprobs)
 

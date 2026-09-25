@@ -10,6 +10,10 @@ Our adaptations:
 - the text is called biased when the SCSC score is above 0.5 (the paper reports a graded score);
 - a second call maps the category label found by the model to our bias types (the paper's prompt
   only asks for the label itself).
+
+Structured mode: the answer is constrained to SCHEMA (the prompt's keys, with the values it allows
+for the fields used by the regression, and bounded free-text fields), and the type answer to a
+comma-separated list of our types.
 """
 import csv
 import json
@@ -43,6 +47,37 @@ COEFS = {
     "explanation": {"no": 0.02715474665562741, "not-applicable": 0.0007276914215228829, "yes": -0.027882438077149362},
 }
 
+NA = "not-applicable"
+
+
+def _enum(*values):
+    return {"type": "string", "enum": [*values, NA]}
+
+
+def _text(n):
+    return {"type": "string", "maxLength": n}
+
+
+SCHEMA = {
+    "type": "object",
+    "properties": {
+        "has_category_label": {"type": "string", "enum": ["yes", "no"]},
+        "full_label": _text(100),
+        "target_type": _enum("specified target", "generic target"),
+        "connotation": _enum("negative", "positive", "neutral"),
+        "grammatical_form": _enum("noun", "other"),
+        "linguistic_form": _enum("generic", "subset", "individual"),
+        "information": _text(300),
+        "situation": _enum("situational behaviour", "enduring characteristics", "other"),
+        "generalization": _enum("abstract", "concrete"),
+        "explanation": _enum("yes", "no"),
+        "signal_word": _text(50),
+    },
+}
+SCHEMA["required"] = list(SCHEMA["properties"])
+SCHEMA["additionalProperties"] = False
+TYPES_REGEX = "(" + "|".join(TYPES) + ")(, (" + "|".join(TYPES) + "))*"
+
 TYPE_PROMPT = (
     "Sentence: {text}\n\n"
     'In this sentence, the expression "{label}" identifies a person or a group of people. '
@@ -52,11 +87,11 @@ TYPE_PROMPT = (
 )
 
 
-def load(assets_dir, **_):
+def load(assets_dir, structured=False, **_):
     path = Path(assets_dir) / "goerge" / "Prompts_to_detect_linguistic_indicators.csv"
     with open(path, encoding="utf-8-sig", newline="") as f:
         prompts = {r["prompt_id"]: r for r in csv.DictReader(f, delimiter=";")}
-    return {"prompt": prompts[PROMPT_ID]}
+    return {"prompt": prompts[PROMPT_ID], "structured": structured}
 
 
 def parse_json(text):
@@ -102,7 +137,9 @@ def scsc_score(fields):
 def predict(item, client, ctx):
     p = ctx["prompt"]
     user = p["explanation"] + p["instruction"] + p["examples"] + " Sentence: " + item["text"]
-    raw, _ = client.chat([{"role": "system", "content": p["system_role"]}, {"role": "user", "content": user}], 400)
+    structured = {"json": SCHEMA, "disable_any_whitespace": True} if ctx["structured"] else None
+    messages = [{"role": "system", "content": p["system_role"]}, {"role": "user", "content": user}]
+    raw, _ = client.chat(messages, 400, structured=structured)
     fields = parse_json(raw)
     if fields is None:
         return {"pred_biased": None, "score": None, "types": [], "parse_ok": False, "raw": raw}
@@ -118,7 +155,9 @@ def predict(item, client, ctx):
     }
     label = fields.get("full_label")
     if _norm(fields.get("has_category_label")) == "yes" and label and _norm(label) != "not-applicable":
-        answer, _ = client.chat([{"role": "user", "content": TYPE_PROMPT.format(text=item["text"], label=label)}], 30)
+        structured = {"regex": TYPES_REGEX} if ctx["structured"] else None
+        prompt = TYPE_PROMPT.format(text=item["text"], label=label)
+        answer, _ = client.chat([{"role": "user", "content": prompt}], 30, structured=structured)
         out["types"] = types_from_list(answer) or ["other"]
         out["raw_types"] = answer
     return out

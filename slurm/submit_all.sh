@@ -9,14 +9,18 @@ QWEN_METHODS="linguistic_indicators demographic_axes guardian_criteria biasalert
 # The Qwen3.8 checkpoints include a vision encoder; no images are used.
 QWEN_ARGS='--limit-mm-per-prompt {"image":0,"video":0}'
 
-RETRIEVE=$(sbatch --parsable slurm/retrieve.sbatch)
-echo "retrieval: $RETRIEVE"
+# Retrieval runs once; its output is reused when it is already there.
+DEP=()
+if [ ! -s results/retrieval/demographic_axes.jsonl ] || [ ! -s results/retrieval/biasalert.jsonl ]; then
+  RETRIEVE=$(sbatch --parsable slurm/retrieve.sbatch)
+  echo "retrieval: $RETRIEVE"
+  DEP=(--dependency "afterok:$RETRIEVE")
+fi
 
-submit() {  # slug model_id display precision kind methods max_len vllm_args
+submit() {  # slug model_id display precision kind methods max_len vllm_args [structured]
   local id
-  id=$(SLUG=$1 MODEL_ID=$2 DISPLAY_NAME=$3 PRECISION=$4 KIND=$5 METHODS=$6 MAX_LEN=$7 VLLM_ARGS=$8 \
-    sbatch --parsable --export=ALL --gres=gpu:h200:1 --job-name "fb-$1" --dependency "afterok:$RETRIEVE" \
-    slurm/serve_and_run.sbatch)
+  id=$(SLUG=$1 MODEL_ID=$2 DISPLAY_NAME=$3 PRECISION=$4 KIND=$5 METHODS=$6 MAX_LEN=$7 VLLM_ARGS=$8 STRUCTURED=${9:-} \
+    sbatch --parsable --export=ALL --gres=gpu:h200:1 --job-name "fb-$1" "${DEP[@]}" slurm/serve_and_run.sbatch)
   echo "$1: $id"
 }
 
@@ -28,3 +32,11 @@ want qwen3.8-27b-bf16 && submit qwen3.8-27b-bf16 Qwen/Qwen3.8-27B "Qwen3.8-27B (
 want qwen3.8-27b-fp8 && submit qwen3.8-27b-fp8 Qwen/Qwen3.8-27B-FP8 "Qwen3.8-27B (FP8)" FP8 chat "$QWEN_METHODS" 16384 "$QWEN_ARGS"
 want qwen3.8-27b-uncensored-fp8 && submit qwen3.8-27b-uncensored-fp8 orcarouter/Qwen3.8-27B-Uncensored-FP8 \
   "Qwen3.8-27B-Uncensored (FP8)" FP8 chat "$QWEN_METHODS" 16384 "$QWEN_ARGS"
+# Same models with constrained answers (vLLM structured outputs)
+want qwen3.8-27b-bf16-structured && submit qwen3.8-27b-bf16-structured Qwen/Qwen3.8-27B \
+  "Qwen3.8-27B (BF16), structured" BF16 chat "$QWEN_METHODS" 16384 "$QWEN_ARGS" 1
+want qwen3.8-27b-fp8-structured && submit qwen3.8-27b-fp8-structured Qwen/Qwen3.8-27B-FP8 \
+  "Qwen3.8-27B (FP8), structured" FP8 chat "$QWEN_METHODS" 16384 "$QWEN_ARGS" 1
+want qwen3.8-27b-uncensored-fp8-structured && submit qwen3.8-27b-uncensored-fp8-structured \
+  orcarouter/Qwen3.8-27B-Uncensored-FP8 "Qwen3.8-27B-Uncensored (FP8), structured" FP8 chat "$QWEN_METHODS" 16384 "$QWEN_ARGS" 1
+exit 0

@@ -10,11 +10,36 @@ OpenAI-compatible server `vllm/vllm-openai:v0.30.0`
 |---|---|---|---|
 | `qwen3.8-27b-bf16` | [`Qwen/Qwen3.8-27B`](https://huggingface.co/Qwen/Qwen3.8-27B) | BF16 (not quantized) | all four methods |
 | `qwen3.8-27b-fp8` | [`Qwen/Qwen3.8-27B-FP8`](https://huggingface.co/Qwen/Qwen3.8-27B-FP8) | FP8 (official) | all four methods; control for the uncensored model, which only exists in FP8 |
-| `qwen3.8-27b-uncensored-fp8` | [`orcarouter/Qwen3.8-27B-Uncensored-FP8`](https://huggingface.co/orcarouter/Qwen3.8-27B-Uncensored-FP8) | FP8 | all four methods |
+| `qwen3.8-27b-uncensored-fp8` | [`orcarouter/Qwen3.8-27B-Uncensored-FP8`](https://huggingface.co/orcarouter/Qwen3.8-27B-Uncensored-FP8) (revision `0f3cdb8`) | FP8 | all four methods |
 | `granite-guardian-3.3-8b` | [`ibm-granite/granite-guardian-3.3-8b`](https://huggingface.co/ibm-granite/granite-guardian-3.3-8b) | BF16 | Guardian method (per-type criteria and built-in `social_bias`) |
 
 Decoding: greedy (temperature 0, top_p 1, seed 0). Qwen runs with thinking off
 (`enable_thinking=False` in the chat template). Granite Guardian runs with `think=False`.
+
+### Free-text and structured runs
+
+Each Qwen model is run twice:
+
+- **free text** (`qwen3.8-27b-bf16`, `qwen3.8-27b-fp8`): the answer formats of the papers, parsed with regular expressions.
+- **structured** (`*-structured`): the same prompts, with the answer constrained by vLLM structured outputs
+  (xgrammar), so answers follow the expected format:
+  - demographic axes: regex `S10|S[1-9](,S[1-9])*`;
+  - Guardian criteria (Qwen): choice `yes` / `no`;
+  - linguistic indicators: JSON schema with the prompt's keys and allowed values, and a regex for the type answer;
+  - BiasAlert: JSON with `reasoning` (at most 2000 characters) first, then the TEMPLATE slots `biased` (`Yes`/`No`),
+    `bias_type`, `social_group`, `social_attribute`. The score is P("Yes") at the `biased` token.
+
+  Granite Guardian keeps its own output format and is not constrained.
+
+  The JSON grammar still allows whitespace between tokens: vLLM 0.30 ignores the per-request
+  `disable_any_whitespace` option with the xgrammar backend. In one structured BiasAlert answer
+  (uncensored model, EMGSD) the model repeated `\r` until it reached the token limit. It counts as unparsed.
+
+Parse failures over all runs: 2 out of 8,400 answers. Besides the one above, a free-text BiasAlert answer
+(uncensored model, CrowS-Pairs) was still reasoning at the 4096-token limit.
+
+Thinking mode is off in all runs. Only BiasAlert produces reasoning, because its instruction asks for it
+("Let's think step by step"). Only the verdict is scored, never the reasoning.
 
 ## Files
 

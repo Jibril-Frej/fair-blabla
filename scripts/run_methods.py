@@ -44,6 +44,7 @@ def main():
     parser.add_argument("--no-thinking", action="store_true", help="pass enable_thinking=False to the chat template")
     parser.add_argument("--methods", nargs="+", required=True, choices=sorted(METHODS))
     parser.add_argument("--datasets", nargs="+", default=DATASETS, choices=DATASETS)
+    parser.add_argument("--structured", action="store_true", help="constrain the answers (vLLM structured outputs)")
     parser.add_argument("--limit", type=int, help="first N items per dataset (smoke tests)")
     parser.add_argument("--workers", type=int, default=32)
     parser.add_argument("--data", default="data")
@@ -63,6 +64,7 @@ def main():
         "precision": args.precision,
         "kind": args.kind,
         "chat_template_kwargs": client.template_kwargs,
+        "structured_outputs": args.structured,
         "decoding": "temperature 0, top_p 1, seed 0",
         "date": date.today().isoformat(),
     }
@@ -70,7 +72,8 @@ def main():
 
     for method in args.methods:
         load, predict = METHODS[method]
-        state = load(data_dir=args.data, assets_dir=args.assets, retrieval_dir=args.retrieval, model_kind=args.kind)
+        state = load(data_dir=args.data, assets_dir=args.assets, retrieval_dir=args.retrieval, model_kind=args.kind,
+                     structured=args.structured)
         for dataset in args.datasets:
             items = load_sample(dataset, args.data)[: args.limit]
             dest = out / method / f"{dataset}.jsonl"
