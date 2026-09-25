@@ -49,3 +49,41 @@ python scripts/sample_test_sets.py
 ```
 
 Options: `--n <rows>`, `--seed <seed>`, `--data <dir>`. The output is identical across runs for the same seed.
+
+## Bias detection models
+
+Methods we run. All are training-free (prompting / in-context examples on open-weight LLMs, no fine-tuning on our side) and output the types of bias found, not only biased / not biased.
+
+### Linguistic indicators of stereotypes
+
+- **Paper:** Görge, Mock & Allende-Cid, *Detecting Linguistic Indicators for Stereotype Assessment with Large Language Models*, FAccT 2025 — [ACM DL](https://dl.acm.org/doi/10.1145/3715275.3732181), [arXiv](https://arxiv.org/abs/2502.19160)
+- **How it works:** based on the Social Category and Stereotype Communication (SCSC) framework from social psychology. A few-shot prompted LLM detects linguistic indicators in a sentence: the social category mentioned (and how generic it is), the behaviour or feature attributed to it, the generalisation, and the explanation. A linear regression provided by the authors (already trained, no training on our side) combines the indicators into a stereotype-strength score.
+- **Models:** evaluated with Llama-3.3-70B-Instruct, GPT-4, GPT-4o-mini, Mixtral-8x7B-Instruct and Llama-3.1-8B-Instruct (4-bit); Llama-3.3-70B-Instruct performs on par with GPT-4.
+- **Code:** [GitHub](https://github.com/r-goerge/Detecting-Linguistic-Indicators-for-Stereotype-Assessment-with-LLMs) (Apache-2.0), with prompts and the regression model. It calls an OpenAI-compatible API, so it can point to a local vLLM server.
+- **Output:** social category targeted, per-indicator labels, graded stereotype score, explanation.
+
+### Demographic-axis prompting with retrieved examples
+
+- **Paper:** Majumdar, Chen, Li & Wang, *Evaluating LLMs for Detecting Demographic-Targeted Social Bias: A Comprehensive Benchmark Study*, 2nd Workshop on Identity-Aware AI, 2026 — [ACL Anthology](https://aclanthology.org/2026.iaai-1.5/), [arXiv](https://arxiv.org/abs/2510.04641) (workshop paper)
+- **How it works:** bias detection as multi-label classification over 9 axes: gender & sexual identity, sexual orientation, disability, age, race & ethnicity, nationality, religion, socio-economic status, physical appearance. The prompt is a "policy" defining each axis with biased and safe (e.g. anti-stereotype) examples. In the few-shot variant, the 5 or 10 most similar labelled examples (BGE-M3 embeddings, cosine similarity) are retrieved from a development pool and added to the prompt.
+- **Models:** Llama-3.1-8B/70B, GLM-4-9B, Qwen-2.5-72B, Llama Guard-3-8B (prompting). Retriever: `BAAI/bge-m3`.
+- **Code:** none found; the policy prompt is given in the paper's appendix (Figure 3).
+- **Output:** biased / not biased + the list of axes targeted. No explanation or target group: to be added to the requested output format.
+
+### Granite Guardian with custom bias criteria
+
+- **Paper:** Padhi et al., *Granite Guardian: Comprehensive LLM Safeguarding*, NAACL 2025 Industry Track — [ACL Anthology](https://aclanthology.org/2025.naacl-industry.49/)
+- **How it works:** an LLM trained by IBM to judge whether a text meets a risk criterion given in the prompt. Besides the built-in `social_bias` criterion, it accepts custom criteria written in natural language. We define one criterion per bias type (gender, ethnicity, socio-economic status, ...) and run one check per type; the probability of "yes" gives a score per type.
+- **Models:** [`ibm-granite/granite-guardian-3.3-8b`](https://huggingface.co/ibm-granite/granite-guardian-3.3-8b) (Apache-2.0); `think=True` adds a reasoning trace.
+- **Output:** yes/no + probability per bias type (+ optional reasoning).
+- **Note:** custom per-type criteria are our adaptation; the paper evaluates the built-in risks.
+
+### BiasAlert-style retrieval-augmented judge
+
+- **Paper:** Fan et al., *BiasAlert: A Plug-and-play Tool for Social Bias Detection in LLMs*, EMNLP 2024 — [ACL Anthology](https://aclanthology.org/2024.emnlp-main.820/), [arXiv](https://arxiv.org/abs/2407.10241)
+- **How it works:** (1) a retriever fetches the 5 entries most similar to the input text from a database of ~41k known social biases (target group + biased description, built from SBIC and covering gender, race, culture, religion, social, disability, orientation); (2) an LLM reads the text and the retrieved entries and reasons step by step: identify the target group and the description, compare with the references, decide whether the text is biased.
+- **Models in the paper:** retriever `facebook/contriever-msmarco`; detector Llama-2-7b-chat fine-tuned with LoRA on RedditBias. The fine-tuned weights are not released.
+- **What we run:** the same retrieval pipeline with an off-the-shelf instruction-tuned LLM prompted with the paper's step-by-step instructions, without fine-tuning. This is our adaptation: results are not comparable with the paper's.
+- **Code:** [GitHub](https://github.com/FanZT6/BiasAlert) (no license stated). It includes the bias database (`data/retrieval/bias_doc.tsv`), the retrieval scripts and the instruction template (`data/data_precessing/instruction_generation.py`).
+- **Output:** biased yes/no, bias type, target group, biased description, explanation.
+- **Note:** the database is built from SBIC, so SBIC results are contaminated and must be reported separately.
