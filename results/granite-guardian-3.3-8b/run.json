@@ -1,0 +1,9 @@
+{
+  "display": "granite-guardian-3.3-8b (BF16)",
+  "model_id": "ibm-granite/granite-guardian-3.3-8b",
+  "precision": "BF16",
+  "kind": "granite",
+  "chat_template_kwargs": {},
+  "decoding": "temperature 0, top_p 1, seed 0",
+  "date": "2026-09-25"
+}

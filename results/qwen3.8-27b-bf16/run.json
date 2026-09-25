@@ -1,0 +1,11 @@
+{
+  "display": "Qwen3.8-27B (BF16)",
+  "model_id": "Qwen/Qwen3.8-27B",
+  "precision": "BF16",
+  "kind": "chat",
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "decoding": "temperature 0, top_p 1, seed 0",
+  "date": "2026-09-25"
+}

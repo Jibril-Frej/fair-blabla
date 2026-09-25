@@ -87,3 +87,51 @@ Methods we run. All are training-free (prompting / in-context examples on open-w
 - **Code:** [GitHub](https://github.com/FanZT6/BiasAlert) (no license stated). It includes the bias database (`data/retrieval/bias_doc.tsv`), the retrieval scripts and the instruction template (`data/data_precessing/instruction_generation.py`).
 - **Output:** biased yes/no, bias type, target group, biased description, explanation.
 - **Note:** the database is built from SBIC, so SBIC results are contaminated and must be reported separately.
+
+## Running the evaluation
+
+The four methods run on the 50-row samples with open-weight models served by [vLLM](https://github.com/vllm-project/vllm) (OpenAI-compatible API).
+
+```bash
+python scripts/fetch_method_assets.py   # prompts and bias database from the authors' repositories -> data/methods/
+python scripts/retrieve.py              # in-context examples (BGE-M3) and BiasAlert references (contriever-msmarco) -> results/retrieval/
+python scripts/run_methods.py --base-url http://127.0.0.1:8000/v1 --model <served name> \
+    --slug <results dir> --display "<name in the table>" --model-id <HF id> --kind chat --no-thinking \
+    --methods linguistic_indicators demographic_axes guardian_criteria biasalert_rag
+uv run python -m fairblabla.evaluate --readme README.md   # results/metrics.csv + the tables below
+```
+
+On the Slurm cluster, `bash slurm/submit_all.sh` runs the retrieval step, then one job per model: each job starts a vLLM server on one H200 GPU and runs the methods against it (`slurm/serve_and_run.sbatch`). The vLLM image and the model weights are fetched first with `slurm/fetch_vllm_image.sh` and `slurm/download_models.sbatch`.
+
+Outputs, per model: `results/<model>/<method>/<dataset>.jsonl` (one line per item: gold labels, prediction, predicted types, score, raw model output) and `results/<model>/run.json` (model and decoding settings). See [`results/README.md`](results/README.md) for the setup and the adaptations to each method.
+
+## Results
+
+<!-- results:start -->
+| Method | Model | EMGSD | StereoDetect | FSB | SBIC | CrowS-Pairs | ToxiGen | GUS | Average |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Linguistic indicators (Görge et al.) | Qwen3.8-27B (BF16) | 0.52 | 0.58 | 0.66 | 0.54 | 0.61 | 0.64 | 0.81 | 0.62 |
+| Linguistic indicators (Görge et al.) | Qwen3.8-27B (FP8) | 0.54 | 0.58 | 0.65 | 0.52 | 0.56 | 0.64 | 0.81 | 0.61 |
+| Demographic axes, 5-shot (Majumdar et al.) | Qwen3.8-27B (BF16) | 0.68 | 0.78 | 0.68 | 0.82 | 0.62 | 0.78 | 0.85 | 0.74 |
+| Demographic axes, 5-shot (Majumdar et al.) | Qwen3.8-27B (FP8) | 0.66 | 0.76 | 0.68 | 0.82 | 0.62 | 0.78 | 0.87 | 0.74 |
+| Guardian per-type criteria (Padhi et al.) | granite-guardian-3.3-8b (BF16) | 0.65 | 0.66 | 0.77 | 0.82 | 0.74 | 0.74 | 0.81 | 0.74 |
+| Guardian per-type criteria (Padhi et al.) | Qwen3.8-27B (BF16) | 0.65 | 0.79 | 0.76 | 0.88 | 0.86 | 0.80 | 0.84 | 0.80 |
+| Guardian per-type criteria (Padhi et al.) | Qwen3.8-27B (FP8) | 0.69 | 0.79 | 0.77 | 0.90 | 0.84 | 0.78 | 0.85 | 0.80 |
+| Guardian built-in social_bias (Padhi et al.) | granite-guardian-3.3-8b (BF16) | 0.63 | 0.70 | 0.76 | 0.84 | 0.76 | 0.72 | 0.77 | 0.74 |
+| BiasAlert-style RAG (Fan et al.) | Qwen3.8-27B (BF16) | 0.52 | 0.66 | 0.36 | 0.86 | 0.66 | 0.79 | 0.79 | 0.66 |
+| BiasAlert-style RAG (Fan et al.) | Qwen3.8-27B (FP8) | 0.52 | 0.71 | 0.35 | 0.88 | 0.66 | 0.77 | 0.79 | 0.67 |
+
+**Bias type found** (type hit rate, see below):
+
+| Method | Model | EMGSD | StereoDetect | FSB | SBIC | CrowS-Pairs | ToxiGen | GUS | Average |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Linguistic indicators (Görge et al.) | Qwen3.8-27B (BF16) | 0.59 | 0.69 | – | 0.33 | 0.54 | 0.32 | – | 0.49 |
+| Linguistic indicators (Görge et al.) | Qwen3.8-27B (FP8) | 0.53 | 0.77 | – | 0.33 | 0.50 | 0.32 | – | 0.49 |
+| Demographic axes, 5-shot (Majumdar et al.) | Qwen3.8-27B (BF16) | 0.53 | 0.46 | – | 0.86 | 0.74 | 0.74 | – | 0.66 |
+| Demographic axes, 5-shot (Majumdar et al.) | Qwen3.8-27B (FP8) | 0.53 | 0.54 | – | 0.86 | 0.74 | 0.74 | – | 0.68 |
+| Guardian per-type criteria (Padhi et al.) | granite-guardian-3.3-8b (BF16) | 0.53 | 0.69 | – | 0.95 | 0.78 | 0.79 | – | 0.75 |
+| Guardian per-type criteria (Padhi et al.) | Qwen3.8-27B (BF16) | 0.35 | 0.46 | – | 0.86 | 0.50 | 0.63 | – | 0.56 |
+| Guardian per-type criteria (Padhi et al.) | Qwen3.8-27B (FP8) | 0.35 | 0.54 | – | 0.86 | 0.48 | 0.58 | – | 0.56 |
+| BiasAlert-style RAG (Fan et al.) | Qwen3.8-27B (BF16) | 0.00 | 0.23 | – | 0.76 | 0.60 | 0.68 | – | 0.46 |
+| BiasAlert-style RAG (Fan et al.) | Qwen3.8-27B (FP8) | 0.06 | 0.31 | – | 0.81 | 0.54 | 0.58 | – | 0.46 |
+<!-- results:end -->

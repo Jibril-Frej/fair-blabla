@@ -1,0 +1,17 @@
+[project]
+name = "fairblabla"
+version = "0.1.0"
+description = "Evaluate training-free bias detection methods on bias-annotated test sets"
+requires-python = ">=3.12"
+dependencies = ["numpy"]
+
+[project.optional-dependencies]
+# Only needed for scripts/retrieve.py (on the cluster it runs inside the vLLM image).
+retrieval = ["torch", "transformers"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fairblabla"]
