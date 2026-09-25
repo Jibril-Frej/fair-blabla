@@ -35,7 +35,7 @@ Each Qwen model is run twice:
   `disable_any_whitespace` option with the xgrammar backend. In one structured BiasAlert answer
   (uncensored model, EMGSD) the model repeated `\r` until it reached the token limit. It counts as unparsed.
 
-Parse failures over all runs: 2 out of 8,400 answers. Besides the one above, a free-text BiasAlert answer
+Parse failures over all runs: 2 out of 10,400 answers. Besides the one above, a free-text BiasAlert answer
 (uncensored model, CrowS-Pairs) was still reasoning at the 4096-token limit.
 
 Thinking mode is off in all runs. Only BiasAlert produces reasoning, because its instruction asks for it
