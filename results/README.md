@@ -35,7 +35,7 @@ Each Qwen model is run twice:
   `disable_any_whitespace` option with the xgrammar backend. In one structured BiasAlert answer
   (uncensored model, EMGSD) the model repeated `\r` until it reached the token limit. It counts as unparsed.
 
-Parse failures over all runs: 2 out of 10,400 answers. Besides the one above, a free-text BiasAlert answer
+Parse failures over all runs: 2 out of 7,800 answers. Besides the one above, a free-text BiasAlert answer
 (uncensored model, CrowS-Pairs) was still reasoning at the 4096-token limit.
 
 Thinking mode is off in all runs. Only BiasAlert produces reasoning, because its instruction asks for it
@@ -56,11 +56,9 @@ Thinking mode is off in all runs. Only BiasAlert produces reasoning, because its
 |---|---|---|
 | EMGSD | `category == stereotype` | `stereotype_type` |
 | StereoDetect | labels 1 (stereotype) and 4 (bias); 0, 2, 3 are not biased | `Category` |
-| FSB | graded only (`score_normalized`) | gender |
 | SBIC | `hasBiasedImplication == 0` | `targetCategory`, refined with `targetMinority` |
 | CrowS-Pairs | pairs: the stereotypical sentence is `sent_more` for `stereo` rows and `sent_less` for `antistereo` rows | `bias_type` |
 | ToxiGen | mean human toxicity ≥ 3 (1–5 scale) | `target_group` |
-| GUS | any `STEREO` span | none |
 
 All types are mapped to one shared list: gender, sexual orientation, disability, age, race/ethnicity, nationality,
 religion, socio-economic, appearance, profession, other (`src/fairblabla/taxonomy.py`).
@@ -81,15 +79,14 @@ religion, socio-economic, appearance, profession, other (`src/fairblabla/taxonom
   - The type `other` is dropped from both sets. Biased texts with no known gold type (some SBIC posts) are skipped.
   - CrowS-Pairs: only the stereotypical sentence of each pair is scored. The other sentence is only *less*
     stereotypical, not labelled unbiased.
-  - Left out: FSB (all texts are about gender and have a graded score, no unbiased label), GUS (no gold types) and
-    Granite Guardian's built-in `social_bias` (no types).
+  - Left out: Granite Guardian's built-in `social_bias` (no types).
   - Some gold types are out of reach for some methods. For example, demographic axes has no `profession` axis
     (EMGSD, StereoDetect), and linguistic indicators only asks about gender and race.
 
   Answers that cannot be parsed count as "not biased". Their number is in `metrics.csv` (`n_parse_fail`).
 - `metrics.csv` also has type precision and recall (`type_precision`, `type_recall`, `n_type` = texts scored). It
   also has the binary detection metrics: macro-F1 and AUROC of biased vs not biased, Spearman ρ with the human
-  score (FSB, ToxiGen), and CrowS-Pairs pairwise accuracy (the share of pairs where the stereotypical sentence gets
+  score (ToxiGen), and CrowS-Pairs pairwise accuracy (the share of pairs where the stereotypical sentence gets
   the higher score, ties 0.5).
 - **n = 50 per dataset** (50 stereotypical sentences for CrowS-Pairs), so differences of a few points are within
   noise.

@@ -1,7 +1,7 @@
 """Draw a fixed random sample of rows from each dataset's test set.
 
 Run the download scripts first. Samples are written to data/samples/<dataset>.csv
-with all original columns kept (Fifty Shades of Bias also gets its human scores).
+with all original columns kept.
 
 Usage: python scripts/sample_test_sets.py [--n 50] [--seed 42] [--data data]
 """
@@ -14,11 +14,9 @@ from pathlib import Path
 TEST_FILES = {
     "emgsd": "emgsd/test.csv",
     "stereodetect": "stereodetect/test.csv",
-    "fifty_shades_of_bias": "fifty_shades_of_bias/FSB_text.csv",
     "sbic": "sbic/SBIC.v2.agg.tst.csv",
     "crows_pairs": "crows_pairs/crows_pairs_anonymized.csv",
     "toxigen": "toxigen/annotated_test.csv",
-    "gus": "gus/gus-dataset-v1.csv",
 }
 
 
@@ -26,15 +24,6 @@ def read_csv(path):
     with open(path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         return reader.fieldnames, list(reader)
-
-
-def add_fsb_scores(data, fieldnames, rows):
-    _, scores = read_csv(data / "fifty_shades_of_bias/fsb_final_scores.csv")
-    by_id = {s["id"]: s for s in scores}
-    for r in rows:
-        r["score"] = by_id[r["uid"]]["score"]
-        r["score_normalized"] = by_id[r["uid"]]["score_normalized"]
-    return fieldnames + ["score", "score_normalized"]
 
 
 def main():
@@ -53,8 +42,6 @@ def main():
         fieldnames, rows = read_csv(data / rel)
         # One RNG per dataset so each sample doesn't depend on the others.
         sample = random.Random(f"{args.seed}-{name}").sample(rows, args.n)
-        if name == "fifty_shades_of_bias":
-            fieldnames = add_fsb_scores(data, fieldnames, sample)
         dest = out / f"{name}.csv"
         with open(dest, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)

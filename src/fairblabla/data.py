@@ -3,19 +3,18 @@
 Each item is a dict with:
   dataset, id    -- id is the row position in the sample (CrowS: "<row>-more" / "<row>-less")
   text           -- the text given to the detectors
-  gold_biased    -- 1 / 0, or None when the dataset has no binary label (FSB, CrowS)
+  gold_biased    -- 1 / 0, or None when the dataset has no binary label (CrowS)
   gold_types     -- list of shared types (see taxonomy.py) the text is about; [] if unknown
-  gold_score     -- graded human score (FSB, ToxiGen), else None
+  gold_score     -- graded human score (ToxiGen), else None
   pair_id, stereo -- CrowS only: pair id and whether this is the stereotypical sentence of the pair
 """
-import ast
 import csv
 import json
 from pathlib import Path
 
 from .taxonomy import types_from_text
 
-DATASETS = ["emgsd", "stereodetect", "fifty_shades_of_bias", "sbic", "crows_pairs", "toxigen", "gus"]
+DATASETS = ["emgsd", "stereodetect", "sbic", "crows_pairs", "toxigen"]
 
 EMGSD_TYPES = {
     "nationality": ["nationality"],
@@ -89,8 +88,6 @@ def sbic_types(row):
     return sorted(types)
 
 
-def _ner_tags(row):
-    return {t for token in ast.literal_eval(row["ner_tags"]) for t in token}
 
 
 def load_sample(name, data_dir="data"):
@@ -103,17 +100,12 @@ def load_sample(name, data_dir="data"):
         elif name == "stereodetect":
             biased = int(r["labels"] in ("1", "4"))
             items.append(_item(name, i, r["Sentence"], biased, STEREODETECT_TYPES[r["Category"].lower()]))
-        elif name == "fifty_shades_of_bias":
-            items.append(_item(name, i, r["response"], None, ["gender"], float(r["score_normalized"])))
         elif name == "sbic":
             biased = int(r["hasBiasedImplication"] == "0")  # inverted in SBIC: 0 = biased
             items.append(_item(name, i, r["post"], biased, sbic_types(r)))
         elif name == "toxigen":
             tox = float(r["toxicity_human"])
             items.append(_item(name, i, r["text"], int(tox >= TOXIGEN_THRESHOLD), types_from_text(r["target_group"]), tox))
-        elif name == "gus":
-            biased = int(any(t.endswith("STEREO") for t in _ner_tags(r)))
-            items.append(_item(name, i, r["text_str"], biased, []))
         elif name == "crows_pairs":
             types = CROWS_TYPES[r["bias_type"]]
             stereo_is_more = r["stereo_antistereo"] == "stereo"

@@ -2,8 +2,8 @@
 
 Per (method, model, dataset):
   n, n_parse_fail  -- unparsed answers count as "not biased" (score 0) in the metrics below
-  macro_f1, auroc  -- binary gold label (EMGSD, StereoDetect, SBIC, ToxiGen, GUS)
-  spearman         -- score vs graded human score (FSB, ToxiGen)
+  macro_f1, auroc  -- binary gold label (EMGSD, StereoDetect, SBIC, ToxiGen)
+  spearman         -- score vs graded human score (ToxiGen)
   pair_acc         -- CrowS-Pairs: share of pairs where the stereotypical sentence gets the higher
                       score (ties count 0.5)
   type_f1, type_precision, type_recall
@@ -12,8 +12,8 @@ Per (method, model, dataset):
                       an unbiased text. Predicted set: the predicted types if the method flags the
                       text, else empty. "other" is dropped from both sets. Gold-biased texts with no
                       known type are skipped. CrowS-Pairs: stereotypical sentences only (the other
-                      sentence is not labelled unbiased). Not computed for FSB and GUS (no gold types
-                      or no binary label) or for methods without types (Guardian social_bias).
+                      sentence is not labelled unbiased). Not computed for methods without types
+                      (Guardian social_bias).
 
 Usage: python -m fairblabla.evaluate [--results results] [--readme README.md]
 """
@@ -28,15 +28,12 @@ import numpy as np
 from .data import DATASETS
 from .methods import LABELS
 
-TYPED = ["emgsd", "stereodetect", "sbic", "crows_pairs", "toxigen"]  # datasets with gold types and unbiased texts
 DATASET_LABELS = {
     "emgsd": "EMGSD",
     "stereodetect": "StereoDetect",
-    "fifty_shades_of_bias": "FSB",
     "sbic": "SBIC",
     "crows_pairs": "CrowS-Pairs",
     "toxigen": "ToxiGen",
-    "gus": "GUS",
 }
 FIELDS = ["method", "model", "dataset", "n", "n_parse_fail", "macro_f1", "auroc", "spearman", "pair_acc",
           "type_f1", "type_precision", "type_recall", "n_type"]
@@ -110,7 +107,7 @@ def metrics(dataset, rows):
             m["auroc"] = auroc(gold, score)
         if rows[0]["gold_score"] is not None:
             m["spearman"] = spearman([r["gold_score"] for r in rows], score)
-    if dataset in TYPED and any(r.get("types") for r in rows):
+    if any(r.get("types") for r in rows):
         tp = fp = fn = n = 0
         for r, p in zip(rows, pred):
             if dataset == "crows_pairs":
@@ -179,7 +176,7 @@ def main():
         w.writeheader()
         for r in rows:
             w.writerow({k: (round(v, 4) if isinstance(v, float) else v) for k, v in r.items()})
-    types = table(rows, args.results, "type_f1", TYPED)
+    types = table(rows, args.results, "type_f1", DATASETS)
     print(types)
     if args.readme:
         path = Path(args.readme)
