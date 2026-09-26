@@ -11,7 +11,6 @@ import csv, json, glob, re, collections
 S = "data/samples/"
 def rd(n): return list(csv.DictReader(open(S + n + ".csv", newline="", encoding="utf-8")))
 exp = {}  # (dataset, id) -> (text, gold_biased, stereo)
-for i, r in enumerate(rd("emgsd")): exp[("emgsd", i)] = (r["text"], 1 if r["category"] == "stereotype" else 0, None)
 for i, r in enumerate(rd("stereodetect")): exp[("stereodetect", i)] = (r["Sentence"], 1 if r["labels"] in ("1", "4") else 0, None)
 for i, r in enumerate(rd("sbic")): exp[("sbic", i)] = (r["post"], 1 if float(r["hasBiasedImplication"]) == 0 else 0, None)
 for i, r in enumerate(rd("toxigen")): exp[("toxigen", i)] = (r["text"], 1 if float(r["toxicity_human"]) >= 3 else 0, None)
@@ -35,7 +34,7 @@ for p in glob.glob("results/*/*/*.jsonl"):
     seen[d] += 1
 print("gold: files", files, dict(seen)); print("mismatches:", dict(bad) or "none")
 # label distribution and cross-tab of raw category columns
-for n, col in [("emgsd", "category"), ("stereodetect", "labels"), ("sbic", "hasBiasedImplication"), ("crows_pairs", "stereo_antistereo")]:
+for n, col in [("stereodetect", "labels"), ("sbic", "hasBiasedImplication"), ("crows_pairs", "stereo_antistereo")]:
     print(n, collections.Counter(r[col] for r in rd(n)))
 print("toxigen >=3:", sum(float(r["toxicity_human"]) >= 3 for r in rd("toxigen")), "/ 50")
 

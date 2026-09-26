@@ -15,7 +15,6 @@ python scripts/download/all.py
 Or one dataset at a time:
 
 ```bash
-python scripts/download/emgsd.py
 python scripts/download/stereodetect.py
 python scripts/download/sbic.py
 python scripts/download/crows_pairs.py
@@ -30,7 +29,6 @@ Lengths are in words (whitespace tokens). Datasets without an official split are
 
 | Dataset | Test file | Rows | Length (mean / median) | Type of text | What is annotated |
 |---|---|---|---|---|---|
-| [EMGSD](https://aclanthology.org/2025.ijcnlp-long.1/) | `emgsd/test.csv` | 11,441 | 11.4 / 10 | Isolated short sentences, mostly template-like (from StereoSet, CrowS-Pairs, WinoQueer, SeeGULL) | `category`: stereotype / neutral / unrelated (~1/3 each) × `stereotype_type` (nationality, profession, gender, LGBTQ+, religion, race) |
 | [StereoDetect](https://aclanthology.org/2025.findings-emnlp.216/) | `stereodetect/test.csv` | 1,738 | 9.6 / 7 | Isolated short sentences | `labels`: 0 anti-stereotype, 1 stereotype, 2 neutral without target group, 3 neutral with target group, 4 bias; plus category and target group |
 | [SBIC](https://aclanthology.org/2020.acl-main.486/) | `sbic/SBIC.v2.agg.tst.csv` | 4,691 | 20.2 / 18 | Social-media posts (Twitter, Reddit, Gab, Stormfront): informal, often offensive | Offensiveness, intent, lewdness, targeted group and free-text implied stereotype. Note `hasBiasedImplication` is inverted: **0 = biased implication** (1,924), 1 = none (2,767) |
 | [CrowS-Pairs](https://aclanthology.org/2020.emnlp-main.154/) | `crows_pairs/crows_pairs_anonymized.csv` (no split) | 1,508 pairs | 13.1 / 12 | Minimal pairs of isolated sentences differing only by the group mentioned | Which sentence is more stereotypical (`sent_more`/`sent_less`), `stereo`/`antistereo` direction, 9 bias types (incl. socioeconomic, disability, age) |
@@ -110,16 +108,16 @@ false negative; an extra wrong type is a false positive. Only methods that outpu
 built-in `social_bias` is left out). Details in [`results/README.md`](results/README.md#metrics).
 
 All methods run on Qwen3.8-27B-FP8 with structured outputs. We also ran Qwen3.8-27B in BF16, the uncensored
-Qwen3.8-27B (FP8) and free-text answers. On each method, these variants give the same output on 82–100% of texts and
+Qwen3.8-27B (FP8) and free-text answers. On each method, these variants give the same output on 81–100% of texts and
 differ by at most 0.03 F1, within the 95% bootstrap interval of zero, so they are not shown here. The Guardian method
 also ran on Granite Guardian 3.3 (8B), the model of the paper: it flags many types on most texts (type precision
 0.14), for an average F1 of 0.24. All these scores are in [`results/metrics.csv`](results/metrics.csv).
 
 <!-- results:start -->
-| Method | Model | EMGSD | StereoDetect | SBIC | CrowS-Pairs | ToxiGen | Average |
-|---|---|---:|---:|---:|---:|---:|---:|
-| Linguistic indicators (Görge et al.) | Qwen3.8-27B (FP8), structured | 0.38 | 0.40 | 0.34 | 0.60 | 0.29 | 0.40 |
-| Demographic axes, 5-shot (Majumdar et al.) | Qwen3.8-27B (FP8), structured | 0.53 | 0.56 | 0.75 | 0.79 | 0.61 | 0.65 |
-| Guardian per-type criteria (Padhi et al.) | Qwen3.8-27B (FP8), structured | 0.38 | 0.43 | 0.62 | 0.49 | 0.49 | 0.48 |
-| BiasAlert-style RAG (Fan et al.) | Qwen3.8-27B (FP8), structured | 0.00 | 0.33 | 0.67 | 0.68 | 0.67 | 0.47 |
+| Method | Model | StereoDetect | SBIC | CrowS-Pairs | ToxiGen | Average |
+|---|---|---:|---:|---:|---:|---:|
+| Linguistic indicators (Görge et al.) | Qwen3.8-27B (FP8), structured | 0.40 | 0.34 | 0.60 | 0.29 | 0.41 |
+| Demographic axes, 5-shot (Majumdar et al.) | Qwen3.8-27B (FP8), structured | 0.56 | 0.75 | 0.79 | 0.61 | 0.68 |
+| Guardian per-type criteria (Padhi et al.) | Qwen3.8-27B (FP8), structured | 0.43 | 0.62 | 0.49 | 0.49 | 0.51 |
+| BiasAlert-style RAG (Fan et al.) | Qwen3.8-27B (FP8), structured | 0.33 | 0.67 | 0.68 | 0.67 | 0.59 |
 <!-- results:end -->

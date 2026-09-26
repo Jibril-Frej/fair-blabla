@@ -12,7 +12,6 @@ from pathlib import Path
 
 # dataset name -> test file (relative to the data dir), as listed in the README
 TEST_FILES = {
-    "emgsd": "emgsd/test.csv",
     "stereodetect": "stereodetect/test.csv",
     "sbic": "sbic/SBIC.v2.agg.tst.csv",
     "crows_pairs": "crows_pairs/crows_pairs_anonymized.csv",

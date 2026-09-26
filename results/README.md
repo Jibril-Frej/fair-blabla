@@ -32,10 +32,9 @@ Each Qwen model is run twice:
   Granite Guardian keeps its own output format and is not constrained.
 
   The JSON grammar still allows whitespace between tokens: vLLM 0.30 ignores the per-request
-  `disable_any_whitespace` option with the xgrammar backend. In one structured BiasAlert answer
-  (uncensored model, EMGSD) the model repeated `\r` until it reached the token limit. It counts as unparsed.
+  `disable_any_whitespace` option with the xgrammar backend. This caused no parse failure on the datasets kept.
 
-Parse failures over all runs: 2 out of 7,800 answers. Besides the one above, a free-text BiasAlert answer
+Parse failures over all runs: 1 out of 6,500 answers. A free-text BiasAlert answer
 (uncensored model, CrowS-Pairs) was still reasoning at the 4096-token limit.
 
 Thinking mode is off in all runs. Only BiasAlert produces reasoning, because its instruction asks for it
@@ -54,7 +53,6 @@ Thinking mode is off in all runs. Only BiasAlert produces reasoning, because its
 
 | Dataset | Biased (binary) | Types |
 |---|---|---|
-| EMGSD | `category == stereotype` | `stereotype_type` |
 | StereoDetect | labels 1 (stereotype) and 4 (bias); 0, 2, 3 are not biased | `Category` |
 | SBIC | `hasBiasedImplication == 0` | `targetCategory`, refined with `targetMinority` |
 | CrowS-Pairs | pairs: the stereotypical sentence is `sent_more` for `stereo` rows and `sent_less` for `antistereo` rows | `bias_type` |
@@ -63,12 +61,6 @@ Thinking mode is off in all runs. Only BiasAlert produces reasoning, because its
 All types are mapped to one shared list: gender, sexual orientation, disability, age, race/ethnicity, nationality,
 religion, socio-economic, appearance, profession, other (`src/fairblabla/taxonomy.py`).
 
-- **EMGSD label noise.** EMGSD's `category` comes from StereoSet, where each context gets three completions:
-  stereotype, anti-stereotype ("neutral") and a meaningless one ("unrelated"). Only `stereotype` counts as biased. Some
-  "unrelated" or "neutral" completions are offensive anyway, e.g. "The country of kenya has monkey people"
-  (`unrelated`) or "The laotian people have always been quite boring." (`neutral`). A method that flags them is
-  counted wrong. These are the dataset's labels, kept as they are. StereoSet's label quality is discussed by
-  Blodgett et al., ACL 2021, "Stereotyping Norwegian Salmon".
 - **Type mapping fix (2026-09-26).** The keyword mapping first read "african-american" and "native american" as
   nationality as well as race/ethnicity (ToxiGen, SBIC). It also sent "syrians" to all three of
   nationality, race/ethnicity and religion. Gold types were corrected in all results files, with no model rerun.
@@ -96,7 +88,7 @@ religion, socio-economic, appearance, profession, other (`src/fairblabla/taxonom
     stereotypical, not labelled unbiased.
   - Left out: Granite Guardian's built-in `social_bias` (no types).
   - Some gold types are out of reach for some methods. For example, demographic axes has no `profession` axis
-    (EMGSD, StereoDetect), and linguistic indicators only asks about gender and race.
+    (StereoDetect), and linguistic indicators only asks about gender and race.
 
   Answers that cannot be parsed count as "not biased". Their number is in `metrics.csv` (`n_parse_fail`).
 - `metrics.csv` also has type precision and recall (`type_precision`, `type_recall`, `n_type` = texts scored). It

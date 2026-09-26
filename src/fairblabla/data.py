@@ -14,7 +14,7 @@ from pathlib import Path
 
 from .taxonomy import types_from_text
 
-DATASETS = ["emgsd", "stereodetect", "sbic", "crows_pairs", "toxigen"]
+DATASETS = ["stereodetect", "sbic", "crows_pairs", "toxigen"]
 
 EMGSD_TYPES = {
     "nationality": ["nationality"],
@@ -94,10 +94,7 @@ def load_sample(name, data_dir="data"):
     rows = read_csv(Path(data_dir) / "samples" / f"{name}.csv")
     items = []
     for i, r in enumerate(rows):
-        if name == "emgsd":
-            biased = int(r["category"] == "stereotype")
-            items.append(_item(name, i, r["text"], biased, EMGSD_TYPES[r["stereotype_type"]]))
-        elif name == "stereodetect":
+        if name == "stereodetect":
             biased = int(r["labels"] in ("1", "4"))
             items.append(_item(name, i, r["Sentence"], biased, STEREODETECT_TYPES[r["Category"].lower()]))
         elif name == "sbic":

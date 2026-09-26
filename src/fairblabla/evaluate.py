@@ -2,7 +2,7 @@
 
 Per (method, model, dataset):
   n, n_parse_fail  -- unparsed answers count as "not biased" (score 0) in the metrics below
-  macro_f1, auroc  -- binary gold label (EMGSD, StereoDetect, SBIC, ToxiGen)
+  macro_f1, auroc  -- binary gold label (StereoDetect, SBIC, ToxiGen)
   spearman         -- score vs graded human score (ToxiGen)
   pair_acc         -- CrowS-Pairs: share of pairs where the stereotypical sentence gets the higher
                       score (ties count 0.5)
@@ -29,7 +29,6 @@ from .data import DATASETS
 from .methods import LABELS
 
 DATASET_LABELS = {
-    "emgsd": "EMGSD",
     "stereodetect": "StereoDetect",
     "sbic": "SBIC",
     "crows_pairs": "CrowS-Pairs",
