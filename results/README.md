@@ -63,6 +63,21 @@ Thinking mode is off in all runs. Only BiasAlert produces reasoning, because its
 All types are mapped to one shared list: gender, sexual orientation, disability, age, race/ethnicity, nationality,
 religion, socio-economic, appearance, profession, other (`src/fairblabla/taxonomy.py`).
 
+- **EMGSD label noise.** EMGSD's `category` comes from StereoSet, where each context gets three completions:
+  stereotype, anti-stereotype ("neutral") and a meaningless one ("unrelated"). Only `stereotype` counts as biased. Some
+  "unrelated" or "neutral" completions are offensive anyway, e.g. "The country of kenya has monkey people"
+  (`unrelated`) or "The laotian people have always been quite boring." (`neutral`). A method that flags them is
+  counted wrong. These are the dataset's labels, kept as they are. StereoSet's label quality is discussed by
+  Blodgett et al., ACL 2021, "Stereotyping Norwegian Salmon".
+- **Type mapping fix (2026-09-26).** The keyword mapping first read "african-american" and "native american" as
+  nationality as well as race/ethnicity (ToxiGen, SBIC). It also sent "syrians" to all three of
+  nationality, race/ethnicity and religion. Gold types were corrected in all results files, with no model rerun.
+  The same mapping labels the demographic-axes few-shot examples: 381 of 86,219 pool examples had a wrong extra
+  `S6`. Only one test text (ToxiGen id 19) had such an example among its 5 shots, so its prediction was made
+  with that example.
+- `scripts/audit_results.py` re-derives the gold labels from the sample CSVs and each decision from the raw model
+  output, and compares them with the results files.
+
 ## Metrics
 
 - **Table in the main README: bias type F1.** For each text, the gold set is its gold types if it is biased and the

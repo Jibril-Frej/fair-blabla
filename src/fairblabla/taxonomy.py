@@ -32,7 +32,8 @@ _KEYWORDS = {
     r"|native americans?|indigenous|first nations?|african\w*|arabs?|arabic|ethnic\w*|mexicans?|chinese"
     r"|middle east\w*|colou?r",
     "nationality": r"nationalit\w*|national|immigra\w*|foreign\w*|countr\w*|xenophob\w*|mexicans?|chinese"
-    r"|americans?|germans?|french|british|english|russians?|italians?|japanese|refugees?|migrants?",
+    r"|(?<!african )(?<!native )americans?|germans?|french|british|english|russians?|italians?|japanese"
+    r"|koreans?|korea|syrians?|refugees?|migrants?",
     "religion": r"relig\w*|jews?|jewish|judai\w*|muslims?|islam\w*|christian\w*|catholic\w*|hindu\w*"
     r"|buddhis\w*|atheis\w*|sikh\w*|mormon\w*|antisemit\w*",
     "socioeconomic": r"socio\w*|poor|poverty|rich|wealth\w*|homeless\w*|class|classes|classis\w*|income"
