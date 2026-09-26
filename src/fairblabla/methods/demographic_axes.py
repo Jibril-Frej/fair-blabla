@@ -2,7 +2,7 @@
 
 The prompt and the bias policy are copied from the paper (Figure 3 and Appendix C.1). The 5 most
 similar labelled examples (BGE-M3, cosine) are retrieved by scripts/retrieve.py from the train
-splits of EMGSD, StereoDetect, SBIC and ToxiGen (data.build_axes_pool). The paper does not show how
+splits of StereoDetect, SBIC and ToxiGen (data.build_axes_pool). The paper does not show how
 the examples are laid out in the [EXAMPLES] slot; we use "Data: ... / Answer: ..." pairs.
 Structured mode: the answer is constrained to the regex ANSWER_REGEX (S10 or a list of S1-S9).
 """

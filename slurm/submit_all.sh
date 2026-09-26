@@ -5,7 +5,7 @@
 # Usage: bash slurm/submit_all.sh [slug ...]   (default: every model below)
 set -euo pipefail
 mkdir -p logs
-QWEN_METHODS="linguistic_indicators demographic_axes guardian_criteria biasalert_rag"
+QWEN_METHODS=${QWEN_METHODS:-"linguistic_indicators demographic_axes guardian_criteria biasalert_rag"}
 # The Qwen3.8 checkpoints include a vision encoder; no images are used.
 QWEN_ARGS='--limit-mm-per-prompt {"image":0,"video":0}'
 

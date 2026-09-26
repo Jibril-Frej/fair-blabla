@@ -16,14 +16,6 @@ from .taxonomy import types_from_text
 
 DATASETS = ["stereodetect", "sbic", "crows_pairs", "toxigen"]
 
-EMGSD_TYPES = {
-    "nationality": ["nationality"],
-    "profession": ["profession"],
-    "gender": ["gender"],
-    "lgbtq+": ["sexual_orientation", "gender"],
-    "religion": ["religion"],
-    "race": ["race_ethnicity"],
-}
 STEREODETECT_TYPES = {
     "profession": ["profession"],
     "gender": ["gender"],
@@ -139,7 +131,7 @@ def _codes(types):
 
 
 def build_axes_pool(data_dir="data"):
-    """Labelled examples from the train splits of EMGSD, StereoDetect, SBIC and ToxiGen, with the
+    """Labelled examples from the train splits of StereoDetect, SBIC and ToxiGen, with the
     answer in the policy's format ("S1,S5" or "S10"). Biased rows whose group maps to no axis
     (e.g. profession) are left out, as are texts that also appear in an evaluation sample.
     Returns a list of {"pool_id", "text", "answer"} in a fixed order."""
@@ -157,8 +149,6 @@ def build_axes_pool(data_dir="data"):
         seen.add(key)
         pool.append({"pool_id": pool_id, "text": text, "answer": ",".join(codes)})
 
-    for i, r in enumerate(read_csv(data / "emgsd/train.csv")):
-        add(f"emgsd:{i}", r["text"], r["category"] == "stereotype", EMGSD_TYPES[r["stereotype_type"]])
     for i, r in enumerate(read_csv(data / "stereodetect/train.csv")):
         add(f"stereodetect:{i}", r["Sentence"], r["labels"] in ("1", "4"), STEREODETECT_TYPES[r["Category"].lower()])
     for i, r in enumerate(read_csv(data / "sbic/SBIC.v2.agg.trn.csv")):
