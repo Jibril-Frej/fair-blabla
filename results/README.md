@@ -64,9 +64,8 @@ religion, socio-economic, appearance, profession, other (`src/fairblabla/taxonom
 - **Type mapping fix (2026-09-26).** The keyword mapping first read "african-american" and "native american" as
   nationality as well as race/ethnicity (ToxiGen, SBIC). It also sent "syrians" to all three of
   nationality, race/ethnicity and religion. Gold types were corrected in all results files, with no model rerun.
-  The same mapping labels the demographic-axes few-shot examples: 381 of 86,219 pool examples had a wrong extra
-  `S6`. Only one test text (ToxiGen id 19) had such an example among its 5 shots, so its prediction was made
-  with that example.
+  The same mapping labels the demographic-axes few-shot examples. The demographic-axes runs were redone on
+  2026-09-26 with the corrected mapping and without EMGSD in the example pool.
 - `scripts/audit_results.py` re-derives the gold labels from the sample CSVs and each decision from the raw model
   output, and compares them with the results files.
 
@@ -108,7 +107,7 @@ religion, socio-economic, appearance, profession, other (`src/fairblabla/taxonom
   - The prompt only asks about gender and race, as in the paper.
 - **Demographic axes (Majumdar et al.):**
   - The policy and the prompt come from the paper (Fig. 3).
-  - The 5 nearest examples (BGE-M3) come from the train splits of EMGSD, StereoDetect, SBIC and ToxiGen, with texts found in the samples removed.
+  - The 5 nearest examples (BGE-M3) come from the train splits of StereoDetect, SBIC and ToxiGen (46,117 examples), with texts found in the samples removed.
   - The paper does not show how examples are formatted, so we format them ourselves.
   - The output is binary, so CrowS-Pairs pairs often tie.
 - **Guardian per-type criteria (Padhi et al.):**

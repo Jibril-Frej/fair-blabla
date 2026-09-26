@@ -117,7 +117,7 @@ also ran on Granite Guardian 3.3 (8B), the model of the paper: it flags many typ
 | Method | Model | StereoDetect | SBIC | CrowS-Pairs | ToxiGen | Average |
 |---|---|---:|---:|---:|---:|---:|
 | Linguistic indicators (Görge et al.) | Qwen3.8-27B (FP8), structured | 0.40 | 0.34 | 0.60 | 0.29 | 0.41 |
-| Demographic axes, 5-shot (Majumdar et al.) | Qwen3.8-27B (FP8), structured | 0.56 | 0.75 | 0.79 | 0.61 | 0.68 |
+| Demographic axes, 5-shot (Majumdar et al.) | Qwen3.8-27B (FP8), structured | 0.64 | 0.80 | 0.74 | 0.62 | 0.70 |
 | Guardian per-type criteria (Padhi et al.) | Qwen3.8-27B (FP8), structured | 0.43 | 0.62 | 0.49 | 0.49 | 0.51 |
 | BiasAlert-style RAG (Fan et al.) | Qwen3.8-27B (FP8), structured | 0.33 | 0.67 | 0.68 | 0.67 | 0.59 |
 <!-- results:end -->
