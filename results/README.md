@@ -67,15 +67,32 @@ religion, socio-economic, appearance, profession, other (`src/fairblabla/taxonom
 
 ## Metrics
 
-- **Main table (README):**
-  - macro-F1 of the binary decision (EMGSD, StereoDetect, SBIC, ToxiGen, GUS);
-  - Spearman ρ between the method's score and the human score (FSB);
-  - pairwise accuracy (CrowS-Pairs): the share of pairs where the stereotypical sentence gets the higher score, with ties counting 0.5.
+- **Table in the main README: bias type F1.** For each text, the gold set is its gold types if it is biased and the
+  empty set if it is not. The predicted set is the method's types if it flags the text, and empty otherwise. Each
+  method has a "no bias" answer:
+  - demographic axes: `S10` ("safe");
+  - Guardian criteria: P(yes) ≤ 0.5 for all 10 types;
+  - BiasAlert: the "No" verdict;
+  - linguistic indicators: SCSC score ≤ 0.5.
+
+  True positives, false positives and false negatives are counted over all (text, type) pairs of a dataset, and the
+  cell is the micro-F1. So a type predicted on an unbiased text, or an extra wrong type on a biased text, is a
+  false positive, and a missed gold type is a false negative.
+  - The type `other` is dropped from both sets. Biased texts with no known gold type (some SBIC posts) are skipped.
+  - CrowS-Pairs: only the stereotypical sentence of each pair is scored. The other sentence is only *less*
+    stereotypical, not labelled unbiased.
+  - Left out: FSB (all texts are about gender and have a graded score, no unbiased label), GUS (no gold types) and
+    Granite Guardian's built-in `social_bias` (no types).
+  - Some gold types are out of reach for some methods. For example, demographic axes has no `profession` axis
+    (EMGSD, StereoDetect), and linguistic indicators only asks about gender and race.
 
   Answers that cannot be parsed count as "not biased". Their number is in `metrics.csv` (`n_parse_fail`).
-- **Type hit rate:** computed on gold-biased items whose gold type is known (for CrowS, the stereotypical sentence). It is the share of these items where the method flags the text *and* one of its predicted types is a gold type.
-- `metrics.csv` also has AUROC, and Spearman for ToxiGen.
-- **n = 50 per dataset** (100 sentences for CrowS-Pairs), so differences of a few points are within noise. For a proportion near 0.5, the 95% interval is about ±0.14.
+- `metrics.csv` also has type precision and recall (`type_precision`, `type_recall`, `n_type` = texts scored). It
+  also has the binary detection metrics: macro-F1 and AUROC of biased vs not biased, Spearman ρ with the human
+  score (FSB, ToxiGen), and CrowS-Pairs pairwise accuracy (the share of pairs where the stereotypical sentence gets
+  the higher score, ties 0.5).
+- **n = 50 per dataset** (50 stereotypical sentences for CrowS-Pairs), so differences of a few points are within
+  noise.
 
 ## Adaptations to the published methods
 

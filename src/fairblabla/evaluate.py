@@ -6,9 +6,14 @@ Per (method, model, dataset):
   spearman         -- score vs graded human score (FSB, ToxiGen)
   pair_acc         -- CrowS-Pairs: share of pairs where the stereotypical sentence gets the higher
                       score (ties count 0.5)
-  type_hit         -- on gold-biased items with known gold types: share where the method flags the
-                      text AND one of its predicted types is a gold type
-  primary          -- the metric used in the README table (macro-F1, FSB: Spearman, CrowS: pair_acc)
+  type_f1, type_precision, type_recall
+                   -- the README table. Multi-label scoring of the bias types, micro-averaged over
+                      (text, type) pairs. Gold set: the gold types of a biased text, the empty set for
+                      an unbiased text. Predicted set: the predicted types if the method flags the
+                      text, else empty. "other" is dropped from both sets. Gold-biased texts with no
+                      known type are skipped. CrowS-Pairs: stereotypical sentences only (the other
+                      sentence is not labelled unbiased). Not computed for FSB and GUS (no gold types
+                      or no binary label) or for methods without types (Guardian social_bias).
 
 Usage: python -m fairblabla.evaluate [--results results] [--readme README.md]
 """
@@ -23,7 +28,7 @@ import numpy as np
 from .data import DATASETS
 from .methods import LABELS
 
-PRIMARY = {"fifty_shades_of_bias": "spearman", "crows_pairs": "pair_acc"}
+TYPED = ["emgsd", "stereodetect", "sbic", "crows_pairs", "toxigen"]  # datasets with gold types and unbiased texts
 DATASET_LABELS = {
     "emgsd": "EMGSD",
     "stereodetect": "StereoDetect",
@@ -33,7 +38,8 @@ DATASET_LABELS = {
     "toxigen": "ToxiGen",
     "gus": "GUS",
 }
-FIELDS = ["method", "model", "dataset", "n", "n_parse_fail", "macro_f1", "auroc", "spearman", "pair_acc", "type_hit", "n_type", "primary"]
+FIELDS = ["method", "model", "dataset", "n", "n_parse_fail", "macro_f1", "auroc", "spearman", "pair_acc",
+          "type_f1", "type_precision", "type_recall", "n_type"]
 START, END = "<!-- results:start -->", "<!-- results:end -->"
 
 
@@ -104,11 +110,23 @@ def metrics(dataset, rows):
             m["auroc"] = auroc(gold, score)
         if rows[0]["gold_score"] is not None:
             m["spearman"] = spearman([r["gold_score"] for r in rows], score)
-    typed = [(r, p) for r, p in zip(rows, pred) if (r["gold_biased"] == 1 or r.get("stereo")) and set(r["gold_types"]) - {"other"}]
-    if typed and any(r.get("types") for r in rows):
-        m["type_hit"] = float(np.mean([bool(p and set(r["types"]) & set(r["gold_types"])) for r, p in typed]))
-        m["n_type"] = len(typed)
-    m["primary"] = m.get(PRIMARY.get(dataset, "macro_f1"))
+    if dataset in TYPED and any(r.get("types") for r in rows):
+        tp = fp = fn = n = 0
+        for r, p in zip(rows, pred):
+            if dataset == "crows_pairs":
+                if not r["stereo"]:
+                    continue
+                gold = set(r["gold_types"]) - {"other"}
+            else:
+                gold = set(r["gold_types"]) - {"other"} if r["gold_biased"] == 1 else set()
+                if r["gold_biased"] == 1 and not gold:
+                    continue  # biased, type unknown
+            guess = set(r.get("types") or []) - {"other"} if p else set()
+            tp, fp, fn, n = tp + len(gold & guess), fp + len(guess - gold), fn + len(gold - guess), n + 1
+        m["type_f1"] = 2 * tp / (2 * tp + fp + fn) if tp + fp + fn else 1.0
+        m["type_precision"] = tp / (tp + fp) if tp + fp else math.nan
+        m["type_recall"] = tp / (tp + fn) if tp + fn else math.nan
+        m["n_type"] = n
     return m
 
 
@@ -129,7 +147,7 @@ def fmt(x, digits=2):
     return "–" if x is None or (isinstance(x, float) and math.isnan(x)) else f"{x:.{digits}f}"
 
 
-def table(rows, results, metric):
+def table(rows, results, metric, datasets):
     """Markdown table: one row per (method, model), one column per dataset, then the average."""
     displays = {p.parent.name: json.loads(p.read_text())["display"] for p in Path(results).glob("*/run.json")}
     by_run = {}
@@ -137,15 +155,14 @@ def table(rows, results, metric):
         by_run.setdefault((r["method"], r["model"]), {})[r["dataset"]] = r.get(metric)
     order = list(LABELS)
     lines = [
-        "| Method | Model | " + " | ".join(DATASET_LABELS[d] for d in DATASETS) + " | Average |",
-        "|---|---|" + "---:|" * (len(DATASETS) + 1),
+        "| Method | Model | " + " | ".join(DATASET_LABELS[d] for d in datasets) + " | Average |",
+        "|---|---|" + "---:|" * (len(datasets) + 1),
     ]
     for (method, model), cells in sorted(by_run.items(), key=lambda kv: (order.index(kv[0][0]), kv[0][1])):
-        values = [cells.get(d) for d in DATASETS]
-        known = [v for v in values if v is not None and not math.isnan(v)]
-        if not known:
+        values = [cells.get(d) for d in datasets]
+        if any(v is None or math.isnan(v) for v in values):
             continue
-        avg = float(np.mean(known)) if len(known) == len(DATASETS) or metric == "type_hit" else None
+        avg = float(np.mean(values))
         lines.append(f"| {LABELS[method]} | {displays.get(model, model)} | " + " | ".join(fmt(v) for v in values) + f" | {fmt(avg)} |")
     return "\n".join(lines)
 
@@ -162,15 +179,14 @@ def main():
         w.writeheader()
         for r in rows:
             w.writerow({k: (round(v, 4) if isinstance(v, float) else v) for k, v in r.items()})
-    primary = table(rows, args.results, "primary")
-    types = table(rows, args.results, "type_hit")
-    print(primary, "\n\n", types, sep="")
+    types = table(rows, args.results, "type_f1", TYPED)
+    print(types)
     if args.readme:
         path = Path(args.readme)
         text = path.read_text(encoding="utf-8")
         head, rest = text.split(START)
         _, tail = rest.split(END)
-        body = f"{START}\n{primary}\n\n**Bias type found** (type hit rate, see below):\n\n{types}\n{END}"
+        body = f"{START}\n{types}\n{END}"
         path.write_text(head + body + tail, encoding="utf-8")
 
 
