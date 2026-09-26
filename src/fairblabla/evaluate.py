@@ -37,6 +37,8 @@ DATASET_LABELS = {
 }
 FIELDS = ["method", "model", "dataset", "n", "n_parse_fail", "macro_f1", "auroc", "spearman", "pair_acc",
           "type_f1", "type_precision", "type_recall", "n_type"]
+# Runs shown in the README table; the other runs (BF16, uncensored, free text) are in metrics.csv.
+README_RUNS = ["qwen3.8-27b-fp8-structured", "granite-guardian-3.3-8b"]
 START, END = "<!-- results:start -->", "<!-- results:end -->"
 
 
@@ -144,11 +146,13 @@ def fmt(x, digits=2):
     return "–" if x is None or (isinstance(x, float) and math.isnan(x)) else f"{x:.{digits}f}"
 
 
-def table(rows, results, metric, datasets):
+def table(rows, results, metric, datasets, runs=None):
     """Markdown table: one row per (method, model), one column per dataset, then the average."""
     displays = {p.parent.name: json.loads(p.read_text())["display"] for p in Path(results).glob("*/run.json")}
     by_run = {}
     for r in rows:
+        if runs and r["model"] not in runs:
+            continue
         by_run.setdefault((r["method"], r["model"]), {})[r["dataset"]] = r.get(metric)
     order = list(LABELS)
     lines = [
@@ -176,7 +180,7 @@ def main():
         w.writeheader()
         for r in rows:
             w.writerow({k: (round(v, 4) if isinstance(v, float) else v) for k, v in r.items()})
-    types = table(rows, args.results, "type_f1", DATASETS)
+    types = table(rows, args.results, "type_f1", DATASETS, README_RUNS)
     print(types)
     if args.readme:
         path = Path(args.readme)
