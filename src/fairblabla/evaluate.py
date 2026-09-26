@@ -37,8 +37,8 @@ DATASET_LABELS = {
 }
 FIELDS = ["method", "model", "dataset", "n", "n_parse_fail", "macro_f1", "auroc", "spearman", "pair_acc",
           "type_f1", "type_precision", "type_recall", "n_type"]
-# Runs shown in the README table; the other runs (BF16, uncensored, free text) are in metrics.csv.
-README_RUNS = ["qwen3.8-27b-fp8-structured", "granite-guardian-3.3-8b"]
+# Runs shown in the README table; the other runs (BF16, uncensored, free text, Granite) are in metrics.csv.
+README_RUNS = ["qwen3.8-27b-fp8-structured"]
 START, END = "<!-- results:start -->", "<!-- results:end -->"
 
 

@@ -109,18 +109,17 @@ unbiased text has an empty gold set, so any type predicted on it is a false posi
 false negative; an extra wrong type is a false positive. Only methods that output types are scored (Granite Guardian's
 built-in `social_bias` is left out). Details in [`results/README.md`](results/README.md#metrics).
 
-All methods run on Qwen3.8-27B-FP8 with structured outputs; the Guardian method also runs on Granite Guardian 3.3
-(8B), the model of the paper. We also ran Qwen3.8-27B in BF16, the uncensored Qwen3.8-27B (FP8) and free-text
-answers. On each method, these variants give the same output on 82–100% of texts and differ by at most 0.03 F1,
-within the 95% bootstrap interval of zero, so they are not shown here. Their scores are in
-[`results/metrics.csv`](results/metrics.csv).
+All methods run on Qwen3.8-27B-FP8 with structured outputs. We also ran Qwen3.8-27B in BF16, the uncensored
+Qwen3.8-27B (FP8) and free-text answers. On each method, these variants give the same output on 82–100% of texts and
+differ by at most 0.03 F1, within the 95% bootstrap interval of zero, so they are not shown here. The Guardian method
+also ran on Granite Guardian 3.3 (8B), the model of the paper: it flags many types on most texts (type precision
+0.14), for an average F1 of 0.24. All these scores are in [`results/metrics.csv`](results/metrics.csv).
 
 <!-- results:start -->
 | Method | Model | EMGSD | StereoDetect | SBIC | CrowS-Pairs | ToxiGen | Average |
 |---|---|---:|---:|---:|---:|---:|---:|
 | Linguistic indicators (Görge et al.) | Qwen3.8-27B (FP8), structured | 0.38 | 0.40 | 0.33 | 0.60 | 0.27 | 0.40 |
 | Demographic axes, 5-shot (Majumdar et al.) | Qwen3.8-27B (FP8), structured | 0.53 | 0.56 | 0.71 | 0.79 | 0.62 | 0.64 |
-| Guardian per-type criteria (Padhi et al.) | granite-guardian-3.3-8b (BF16) | 0.18 | 0.19 | 0.26 | 0.31 | 0.28 | 0.24 |
 | Guardian per-type criteria (Padhi et al.) | Qwen3.8-27B (FP8), structured | 0.38 | 0.43 | 0.63 | 0.49 | 0.54 | 0.49 |
 | BiasAlert-style RAG (Fan et al.) | Qwen3.8-27B (FP8), structured | 0.00 | 0.33 | 0.69 | 0.68 | 0.62 | 0.46 |
 <!-- results:end -->
