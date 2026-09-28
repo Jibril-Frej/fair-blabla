@@ -23,9 +23,7 @@ python scripts/download/toxigen.py
 
 Use `--out <dir>` to change the output directory. Already-downloaded files are skipped.
 
-## Datasets (test sets)
-
-Lengths are in words (whitespace tokens). Datasets without an official split are used in full.
+## Datasets
 
 | Dataset | Test file | Rows | Length (mean / median) | Type of text | What is annotated |
 |---|---|---|---|---|---|
@@ -36,51 +34,45 @@ Lengths are in words (whitespace tokens). Datasets without an official split are
 
 ## Evaluation samples
 
-Draw 50 random rows (seed 42) from each test set above into `data/samples/<dataset>.csv`:
+Draw 50 random rows (seed 42 by default) from each test set above into `data/samples/<dataset>.csv`:
 
 ```bash
 python scripts/sample_test_sets.py
 ```
 
-Options: `--n <rows>`, `--seed <seed>`, `--data <dir>`. The output is identical across runs for the same seed.
+Options: `--n <rows>`, `--seed <seed>`, `--data <dir>`. 
 
 ## Bias detection models
 
-Methods we run. All are training-free (prompting / in-context examples on open-weight LLMs, no fine-tuning on our side) and output the types of bias found, not only biased / not biased.
+Models that output the types of bias present in the text.
 
 ### Linguistic indicators of stereotypes
 
 - **Paper:** Görge, Mock & Allende-Cid, *Detecting Linguistic Indicators for Stereotype Assessment with Large Language Models*, FAccT 2025 — [ACM DL](https://dl.acm.org/doi/10.1145/3715275.3732181), [arXiv](https://arxiv.org/abs/2502.19160)
-- **How it works:** based on the Social Category and Stereotype Communication (SCSC) framework from social psychology. A few-shot prompted LLM detects linguistic indicators in a sentence: the social category mentioned (and how generic it is), the behaviour or feature attributed to it, the generalisation, and the explanation. A linear regression provided by the authors (already trained, no training on our side) combines the indicators into a stereotype-strength score.
-- **Models:** evaluated with Llama-3.3-70B-Instruct, GPT-4, GPT-4o-mini, Mixtral-8x7B-Instruct and Llama-3.1-8B-Instruct (4-bit); Llama-3.3-70B-Instruct performs on par with GPT-4.
-- **Code:** [GitHub](https://github.com/r-goerge/Detecting-Linguistic-Indicators-for-Stereotype-Assessment-with-LLMs) (Apache-2.0), with prompts and the regression model. It calls an OpenAI-compatible API, so it can point to a local vLLM server.
+- **How it works:** LLM + Classifier. LLM for linguistic indicator extraction + a linear regression provided by the authors combines the indicators into a stereotype-strength score.
+- **Code:** [GitHub](https://github.com/r-goerge/Detecting-Linguistic-Indicators-for-Stereotype-Assessment-with-LLMs) (Apache-2.0), with prompts and the regression model.
 - **Output:** social category targeted, per-indicator labels, graded stereotype score, explanation.
 
 ### Demographic-axis prompting with retrieved examples
 
 - **Paper:** Majumdar, Chen, Li & Wang, *Evaluating LLMs for Detecting Demographic-Targeted Social Bias: A Comprehensive Benchmark Study*, 2nd Workshop on Identity-Aware AI, 2026 — [ACL Anthology](https://aclanthology.org/2026.iaai-1.5/), [arXiv](https://arxiv.org/abs/2510.04641) (workshop paper)
-- **How it works:** bias detection as multi-label classification over 9 axes: gender & sexual identity, sexual orientation, disability, age, race & ethnicity, nationality, religion, socio-economic status, physical appearance. The prompt is a "policy" defining each axis with biased and safe (e.g. anti-stereotype) examples. In the few-shot variant, the 5 or 10 most similar labelled examples (BGE-M3 embeddings, cosine similarity) are retrieved from a development pool and added to the prompt.
-- **Models:** Llama-3.1-8B/70B, GLM-4-9B, Qwen-2.5-72B, Llama Guard-3-8B (prompting). Retriever: `BAAI/bge-m3`.
-- **Code:** none found; the policy prompt is given in the paper's appendix (Figure 3).
-- **Output:** biased / not biased + the list of axes targeted. No explanation or target group: to be added to the requested output format.
+- **How it works:** RAG style. Retrieve 5 most similar examples for each category (gender & sexual identity, sexual orientation, disability, age, race & ethnicity, nationality, religion, socio-economic status, physical appearance). Then an LLM (based on the examples) takes the decision.
+- **Code:** not found; the prompt is given in the paper's appendix (Figure 3).
+- **Output:** categories of bias found.
 
 ### Granite Guardian with custom bias criteria
 
 - **Paper:** Padhi et al., *Granite Guardian: Comprehensive LLM Safeguarding*, NAACL 2025 Industry Track — [ACL Anthology](https://aclanthology.org/2025.naacl-industry.49/)
-- **How it works:** an LLM trained by IBM to judge whether a text meets a risk criterion given in the prompt. Besides the built-in `social_bias` criterion, it accepts custom criteria written in natural language. We define one criterion per bias type (gender, ethnicity, socio-economic status, ...) and run one check per type; the probability of "yes" gives a score per type.
-- **Models:** [`ibm-granite/granite-guardian-3.3-8b`](https://huggingface.co/ibm-granite/granite-guardian-3.3-8b) (Apache-2.0); `think=True` adds a reasoning trace.
-- **Output:** yes/no + probability per bias type (+ optional reasoning).
-- **Note:** custom per-type criteria are our adaptation; the paper evaluates the built-in risks.
+- **How it works:** Pure LLM. We define one criterion per bias type (gender, ethnicity, socio-economic status, ...) and, for each criterion, we ask the LLM to answer by yes or no if the input text is biased. We used the logits of the next token to get the probability of yes/no.
+- **Code:** [Github](https://github.com/ibm-granite/granite-guardian)
+- **Output:** yes/no + probability per bias type.
 
 ### BiasAlert-style retrieval-augmented judge
 
 - **Paper:** Fan et al., *BiasAlert: A Plug-and-play Tool for Social Bias Detection in LLMs*, EMNLP 2024 — [ACL Anthology](https://aclanthology.org/2024.emnlp-main.820/), [arXiv](https://arxiv.org/abs/2407.10241)
-- **How it works:** (1) a retriever fetches the 5 entries most similar to the input text from a database of ~41k known social biases (target group + biased description, built from SBIC and covering gender, race, culture, religion, social, disability, orientation); (2) an LLM reads the text and the retrieved entries and reasons step by step: identify the target group and the description, compare with the references, decide whether the text is biased.
-- **Models in the paper:** retriever `facebook/contriever-msmarco`; detector Llama-2-7b-chat fine-tuned with LoRA on RedditBias. The fine-tuned weights are not released.
-- **What we run:** the same retrieval pipeline with an off-the-shelf instruction-tuned LLM prompted with the paper's step-by-step instructions, without fine-tuning. This is our adaptation: results are not comparable with the paper's.
+- **How it works:** RAG style. Similar to Demographic-axis but with different sources for retrieval.
 - **Code:** [GitHub](https://github.com/FanZT6/BiasAlert) (no license stated). It includes the bias database (`data/retrieval/bias_doc.tsv`), the retrieval scripts and the instruction template (`data/data_precessing/instruction_generation.py`).
 - **Output:** biased yes/no, bias type, target group, biased description, explanation.
-- **Note:** the database is built from SBIC, so SBIC results are contaminated and must be reported separately.
 
 ## Running the evaluation
 
@@ -101,23 +93,14 @@ Outputs, per model: `results/<model>/<method>/<dataset>.jsonl` (one line per ite
 
 ## Results
 
-Each method predicts a set of bias types per text; an empty set means "not biased". The cell is the
-micro-F1 of these sets against the gold types, over all (text, type) pairs of the 50-row sample. An
-unbiased text has an empty gold set, so any type predicted on it is a false positive; a missed gold type is a
-false negative; an extra wrong type is a false positive. Only methods that output types are scored (Granite Guardian's
-built-in `social_bias` is left out). Details in [`results/README.md`](results/README.md#metrics).
-
-All methods run on Qwen3.8-27B-FP8 with structured outputs. We also ran Qwen3.8-27B in BF16, the uncensored
-Qwen3.8-27B (FP8) and free-text answers. On each method, these variants give the same output on 81–100% of texts and
-differ by at most 0.03 F1, within the 95% bootstrap interval of zero, so they are not shown here. The Guardian method
-also ran on Granite Guardian 3.3 (8B), the model of the paper: it flags many types on most texts (type precision
-0.14), for an average F1 of 0.24. All these scores are in [`results/metrics.csv`](results/metrics.csv).
+Each method predicts a set of bias types per text; an empty set means "not biased". 
+We report the micro-F1 of these sets against the gold types.
 
 <!-- results:start -->
 | Method | Model | StereoDetect | SBIC | CrowS-Pairs | ToxiGen | Average |
 |---|---|---:|---:|---:|---:|---:|
-| Linguistic indicators (Görge et al.) | Qwen3.8-27B (FP8), structured | 0.40 | 0.34 | 0.60 | 0.29 | 0.41 |
-| Demographic axes, 5-shot (Majumdar et al.) | Qwen3.8-27B (FP8), structured | 0.64 | 0.80 | 0.74 | 0.62 | 0.70 |
-| Guardian per-type criteria (Padhi et al.) | Qwen3.8-27B (FP8), structured | 0.43 | 0.62 | 0.49 | 0.49 | 0.51 |
-| BiasAlert-style RAG (Fan et al.) | Qwen3.8-27B (FP8), structured | 0.33 | 0.67 | 0.68 | 0.67 | 0.59 |
+| Linguistic indicators (Görge et al.) | Qwen3.8-27B (FP8) | 0.40 | 0.34 | 0.60 | 0.29 | 0.41 |
+| Demographic axes, 5-shot (Majumdar et al.) | Qwen3.8-27B (FP8) | 0.64 | 0.80 | 0.74 | 0.62 | 0.70 |
+| Guardian per-type criteria (Padhi et al.) | Qwen3.8-27B (FP8) | 0.43 | 0.62 | 0.49 | 0.49 | 0.51 |
+| BiasAlert-style RAG (Fan et al.) | Qwen3.8-27B (FP8) | 0.33 | 0.67 | 0.68 | 0.67 | 0.59 |
 <!-- results:end -->
