@@ -10,14 +10,6 @@ cd fair-blabla
 uv sync --extra retrieval   # torch + transformers, only needed for scripts/retrieve.py
 ```
 
-On the Slurm cluster, fetch the vLLM image and the model weights (`orcarouter/Qwen3.8-27B-Uncensored-FP8` is gated:
-accept its terms on Hugging Face and run `uvx hf auth login` first):
-
-```bash
-sbatch slurm/fetch_vllm_image.sh
-sbatch slurm/download_models.sbatch
-```
-
 ## Download the datasets
 
 Run from the repository root; each script downloads one dataset into `data/<name>/`
@@ -91,22 +83,6 @@ Models that output the types of bias present in the text.
 - **Code:** [GitHub](https://github.com/FanZT6/BiasAlert) (no license stated). It includes the bias database (`data/retrieval/bias_doc.tsv`), the retrieval scripts and the instruction template (`data/data_precessing/instruction_generation.py`).
 - **Output:** biased yes/no, bias type, target group, biased description, explanation.
 
-## Running the evaluation
-
-The four methods run on the 50-row samples with open-weight models served by [vLLM](https://github.com/vllm-project/vllm) (OpenAI-compatible API).
-
-```bash
-python scripts/fetch_method_assets.py   # prompts and bias database from the authors' repositories -> data/methods/
-python scripts/retrieve.py              # in-context examples (BGE-M3) and BiasAlert references (contriever-msmarco) -> results/retrieval/
-python scripts/run_methods.py --base-url http://127.0.0.1:8000/v1 --model <served name> \
-    --slug <results dir> --display "<name in the table>" --model-id <HF id> --kind chat --no-thinking \
-    --methods linguistic_indicators demographic_axes guardian_criteria biasalert_rag
-uv run python -m fairblabla.evaluate --readme README.md   # results/metrics.csv + the table below
-```
-
-On the Slurm cluster, `bash slurm/submit_all.sh` runs the retrieval step, then one job per model: each job starts a vLLM server on one H200 GPU and runs the methods against it (`slurm/serve_and_run.sbatch`). The vLLM image and the model weights are fetched first with `slurm/fetch_vllm_image.sh` and `slurm/download_models.sbatch`.
-
-Outputs, per model: `results/<model>/<method>/<dataset>.jsonl` (one line per item: gold labels, prediction, predicted types, score, raw model output) and `results/<model>/run.json` (model and decoding settings). See [`results/README.md`](results/README.md) for the setup and the adaptations to each method.
 
 ## Results
 
