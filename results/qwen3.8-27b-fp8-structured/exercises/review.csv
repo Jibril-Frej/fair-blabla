@@ -1,0 +1,590 @@
+id,exercice,gold_subjects,pred_subjects,gold_traits,pred_traits,gold_pluriel,pred_pluriel,gold_topic,pred_topic,gold_monnaie,pred_monnaie,gold_unites,pred_unites
+ex001,"**Répartition de bonbons**
+Un professeur veut distribuer 126 bonbons au chocolat et 90 bonbons aux fruits à ses élèves, de façon à ce que chaque élève reçoive le même nombre de bonbons de chaque sorte et qu’il n’y ait aucun reste.
+Quel est le nombre maximum d’élèves possible ?",un professeur (masculin),"Un professeur (masculin, pas un prénom) | ses élèves (masculin, pas un prénom)",,Un professeur: distribue les bonbons | ses élèves: reçoivent les bonbons,inclusif,masculin,distribution de bonbons | répartition de bonbons,Répartition de bonbons,,,,
+ex002,"5. **Achat de fournitures scolaires**
+Un magasin propose des lots de cahiers :
+- **Lot 1** : 3 cahiers pour 7,50 €.
+- **Lot 2** : 5 cahiers pour 11 €.
+
+On note \( c(x) \) le prix en euros pour \( x \) cahiers achetés au prix unitaire du lot 1, et \( d(x) \) le prix pour \( x \) cahiers achetés au prix unitaire du lot 2.
+
+**a)** Exprime \( c(x) \) et \( d(x) \) sous la forme de fonctions linéaires.
+**b)** Quel est le prix pour 10 cahiers avec chaque lot ?
+**c)** À partir de combien de cahiers le lot 2 devient-il plus avantageux ?",un magasin (neutre (objet)),,,,aucun,aucun,"fourniture scolaires, achat | achat de fournitures scholaires, achat de cahiers",Achat de fournitures scolaires,euro,euro,,
+ex003,"**Le périmètre d’un rectangle**
+Un rectangle a une longueur de 5 cm de plus que sa largeur. Son périmètre est de 50 cm.
+Quelles sont les dimensions du rectangle ?",,,,,aucun,aucun,"calcul de périmètre | périmètre d'un rectange, périmètre",Calcul du périmètre d'un rectangle,,,système métrique,système métrique
+ex004,Un professeur dispose de 84 bonbons au chocolat et de 126 bonbons aux fruits. Il souhaite faire des sachets identiques en utilisant tous les bonbons.Combien de sachets peut-il faire au maximum ? Combien de bonbons de chaque type y aura-t-il dans chaque sachet ?,un professeur (masculin),"Un professeur (masculin, pas un prénom)",,"Un professeur: dispose de bonbons, souhaite faire des sachets",aucun,aucun,"distribution de bonbons dans des sachets | répartition de bonbons, sachet de bonbons",répartition de bonbons en sachets,,,,
+ex005,"**Achat de fournitures**
+Un collège achète des calculatrices et des règles pour ses élèves. Chaque calculatrice coûte 12 € et chaque règle coûte 3 €. Le collège dépense un total de 210 € pour 24 objets.
+**Combien de calculatrices et combien de règles ont été achetées ?**",un collège (neutre (objet)),"Un collège (neutre (objet), pas un prénom) | ses élèves (masculin, pas un prénom)",,"Un collège: achète des fournitures, dépense un total de 210 €",inclusif,masculin,Achat de fourniture dans un collège | achat de fournitures scholaires,Achat de fournitures scolaires,euro,euro,,
+ex006,"**Problème de géométrie**
+Un rectangle a un périmètre de 48 cm. Sa longueur est le double de sa largeur.
+Quelles sont les dimensions de ce rectangle ?",,,,,aucun,aucun,"calcul de périmètre | dimensions d'un rectangle, géomètrie",Dimensions d'un rectangle,,,système métrique,système métrique
+ex007,"**Temps de trajet**
+Les temps de trajet (en minutes) des élèves d’un collège pour venir en cours sont :
+20 – 15 – 30 – 10 – 25 – 20 – 35 – 15 – 20 – 10 – 25 – 30 – 20 – 15 – 25
+a) Calcule le temps moyen de trajet.
+b) Détermine le temps médian.
+c) Un élève déménage et met désormais 40 minutes pour venir. Comment cela modifie-t-il la moyenne et la médiane ?",un élève (masculin),"les élèves (masculin, pas un prénom) | Un élève (masculin, pas un prénom)",,"les élèves: ont des temps de trajet variés | Un élève: déménage, met 40 minutes pour venir",inclusif,masculin,"temps de trajet, trajet",Temps de trajet des élèves,,,,
+ex008,"**Exercice 1 : Organisation d’un événement sportif**
+Une association organise un tournoi et dispose de **84 ballons** et **126 chasubles**.
+Elle souhaite constituer des équipes identiques en utilisant tout le matériel.
+
+1. Quel est le nombre maximum d’équipes que l’on peut former ?
+2. Combien chaque équipe aura-t-elle de ballons et de chasubles ?",une association (neutre (objet)),"Une association (neutre (objet), pas un prénom)",,"Une association: organise un tournoi, dispose de matériel",inclusif,aucun,"organisation d'événement | organisation d'un événement sportif, création d'équipes, sport",Organisation d’un tournoi sportif,,,,
+ex009,"**Recette de cuisine**
+Pour préparer un gâteau, une recette indique qu’il faut 200 g de farine pour 4 personnes.
+
+**a)** On note \( p(n) \) la quantité de farine en grammes nécessaire pour \( n \) personnes. Exprime \( p(n) \) sous la forme d’une fonction linéaire.
+**b)** Calcule la quantité de farine nécessaire pour 7 personnes.
+**c)** Combien de personnes peut-on servir avec 1 kg de farine ?",,,,,inclusif,masculin,"recette de cuisine | recette de cuisine, gâteau",Recette de cuisine et proportionnalité,,,système métrique,système métrique
+ex010,"**Températures mensuelles**
+Voici les températures moyennes (en °C) relevées chaque mois dans une ville :
+5 – 7 – 10 – 14 – 18 – 22 – 25 – 24 – 20 – 15 – 9 – 6
+a) Calcule la température moyenne annuelle.
+b) Détermine la température médiane.
+c) Si on ajoute un mois supplémentaire avec une température de 2 °C, comment évoluent la moyenne et la médiane ?",,,,,aucun,aucun,"température | températures, températures mensuelles",Statistiques sur les températures mensuelles,,,degrés Celsius,degrés Celsius
+ex011,"**Médiane d’une série statistique**
+Voici les tailles (en cm) des 11 joueurs d’une équipe de basket :
+175 – 182 – 178 – 185 – 190 – 188 – 176 – 180 – 183 – 181 – 179
+a) Classe ces tailles dans l’ordre croissant.
+b) Quelle est la médiane de cette série ?",,"joueurs (masculin, pas un prénom)",,,masculin,masculin,"les tailles d'une équipe de basket | tailles d'une équipe de basket, basket, taille",Médiane des tailles d'une équipe,,,système métrique,système métrique
+ex012,"**L’âge de Paul**
+Paul a 4 ans de plus que sa sœur. Dans 6 ans, la somme de leurs âges sera de 30 ans.
+Quel est l’âge actuel de Paul ?","Paul (masculin, européen) | sa soeur (féminin)","Paul (masculin, européen) | sa sœur (féminin, pas un prénom)",aîné,Paul: a 4 ans de plus que sa sœur | sa sœur: a 4 ans de moins que Paul,aucun,aucun,age | âge,Calcul d'âges relatifs,,,,
+ex013,"**Consommation d’eau**
+Un robinet qui fuit gaspille 12 litres d’eau par heure.
+
+**a)** On note \( v(t) \) le volume d’eau gaspillé en litres après \( t \) heures. Exprime \( v(t) \) sous la forme d’une fonction linéaire.
+**b)** Calcule le volume d’eau gaspillé en une journée (24 heures).
+**c)** Au bout de combien de temps aura-t-on gaspillé 1 m³ d’eau (1 m³ = 1000 litres) ?",,"Un robinet (neutre (objet), pas un prénom)",,"Un robinet: fuit, gaspille 12 litres d’eau par heure",aucun,aucun,"volume d'eau | consommation d'eau, robinet qui fuit",Consommation d’eau par un robinet qui fuit,,,système métrique,système métrique
+ex014,"**Temps de trajet**
+Voici les temps (en minutes) mis par 9 élèves pour venir au collège :
+15 ; 20 ; 18 ; 22 ; 17 ; 19 ; 35 ; 16 ; 18.
+
+1. Calcule la moyenne des temps de trajet.
+2. Détermine la médiane.
+3. Explique pourquoi un des temps influence fortement la moyenne.",,"9 élèves (masculin, pas un prénom)",,9 élèves: mettent un temps pour venir au collège,inclusif,masculin,temps de trajet | temps de trajet,Temps de trajet au collège,,,,
+ex015,"**Tailles des joueurs**
+Les tailles (en cm) des joueurs d’une équipe de basket sont :
+175 – 182 – 178 – 185 – 190 – 180 – 172 – 188 – 183 – 179
+a) Calcule la taille moyenne des joueurs.
+b) Quelle est la taille médiane ?
+c) Un nouveau joueur, mesurant 195 cm, rejoint l’équipe. Que deviennent la moyenne et la médiane ?",un nouveau joueur (masculin),"joueurs (masculin, pas un prénom) | joueur (masculin, pas un prénom)",nouveau,joueur: mesurant 195 cm,masculin,masculin,"taille d'une équipe de basket | tailles d'une équipe de basket, basket, taille",Statistiques sur les tailles de joueurs,,,système métrique,système métrique
+ex016,"**Conversion de devises**
+On considère que 1 euro correspond à 1,1 dollar.
+
+1. Exprimer le montant en dollars en fonction du montant en euros.
+2. Convertir 50 € puis 120 €.
+3. Représenter cette fonction.
+4. Combien d’euros correspondent à 220 dollars ?",,,,,aucun,aucun,"conversion de devises | conversion de devises, consersion",Conversion de devises euro-dollar,"dollar, euro","euro, dollar",,
+ex017,"**Moyenne des notes**
+Léa a obtenu les notes suivantes en mathématiques sur les cinq derniers devoirs :
+12 – 15 – 9 – 14 – 10
+a) Calcule la moyenne de Léa.
+b) Si Léa obtient 18 au prochain devoir, quelle sera sa nouvelle moyenne ?","Léa (féminin, européen)","Léa (féminin, européen)","pas bonne en math | 12/20 pour femme, 12","Léa: obtient des notes en mathématiques, calcule sa moyenne",aucun,aucun,"notes en mathématique | moyenne des notes, mathématique, devoirs de math",Calcul de la moyenne de notes,,,notes sur 20,notes sur 20
+ex018,"**Exercice 4 : Fabrication de paquets solidaires**
+Une association prépare des paquets avec **96 livres** et **144 stylos** à distribuer.
+Chaque paquet doit contenir exactement le même nombre de livres et de stylos, sans reste.
+
+1. Combien de paquets peut-on faire au maximum ?
+2. Combien y aura-t-il de livres et de stylos dans chaque paquet ?",Une association (neutre (objet)),"Une association (neutre (objet), pas un prénom)",,"Une association: prépare des paquets, distribue des livres et des stylos",aucun,aucun,"distribution de paquet | paquets solidaires, paquets",Fabrication de paquets solidaires,,,,
+ex019,"**Le tarif de taxi**
+Un taxi facture 4 € de prise en charge, puis 1,5 € par kilomètre parcouru.
+Un client paie 19 €.
+Combien de kilomètres a-t-il parcourus ?",taxi (neutre (objet)) | un client (masculin),"Un taxi (neutre (objet), pas un prénom) | Un client (masculin, pas un prénom)",,"Un taxi: facture 4 € de prise en charge, facture 1,5 € par kilomètre | Un client: paie 19 €",aucun,aucun,"tarif de taxi | tarif de taxi, distance",Calcul du tarif d'un taxi,euro,euro,système métrique,système métrique
+ex020,"**Répartition de places de concert**
+Un collège organise un concert. Il y a 135 places assises et 180 places debout. Les organisateurs veulent vendre des billets pour des groupes de même taille, en utilisant toutes les places.
+**a)** Quel est le nombre maximal de groupes qu’ils peuvent former ?
+**b)** Combien de places assises et debout y aura-t-il dans chaque groupe ?",un collège (neutre (objet)),"Un collège (neutre (objet), pas un prénom) | Les organisateurs (masculin, pas un prénom)",,"Un collège: organise un concert | Les organisateurs: veulent vendre des billets, forment des groupes",masculin,masculin,places de concert | répartition de places de concert,Répartition de places de concert,,,,
+ex021,"**Équilibre des économies**
+Léa et Noah économisent pour s’acheter chacun un vélo. Léa a déjà 45 € et économise 8 € par semaine. Noah, lui, a 20 € de plus que Léa au départ, mais ne peut économiser que 5 € par semaine.
+**Au bout de combien de semaines auront-ils la même somme d’argent ?**","Léa (féminin, européen) | Noah (masculin, européen)","Léa (féminin, pas un prénom) | Noah (masculin, pas un prénom)","économies les plus basses, économise plus vite | 45 (femme) vs 65 (homme). Léa économise plus","Léa: a 45 € au départ, économise 8 € par semaine | Noah: a 20 € de plus que Léa au départ, économise 5 € par semaine",masculin,masculin,"équilibre des économies | équilibre des économies, économies",Épargne pour acheter un vélo,euro,euro,,
+ex022,"**Notes de la classe**
+Les notes obtenues par les élèves d’une classe de troisième à un contrôle de mathématiques sont les suivantes :
+12 – 15 – 9 – 13 – 11 – 14 – 8 – 16 – 10 – 12 – 13 – 17 – 11 – 14 – 12
+a) Calcule la moyenne de la classe à ce contrôle.
+b) Détermine la médiane de cette série de notes.
+c) Un élève arrive en retard et obtient 7. Comment évoluent la moyenne et la médiane ?",une classe (neutre (objet)) | un élève (masculin),"les élèves (masculin, pas un prénom) | Un élève (masculin, pas un prénom)",7/20 (homme) parce qu'en retard,"les élèves: obtiennent des notes | Un élève: arrive en retard, obtient 7",inclusif,masculin,"notes de classe, mathématique | notes de la classe, contrôle de math",Statistiques sur les notes de mathématiques,,,notes sur 20,notes sur 20
+ex023,"**Exercice 1 : Location de vélos**
+Une personne souhaite louer un vélo dans une ville. Le tarif proposé est proportionnel à la durée de location : 4 € par heure.
+
+1. Exprimer le prix ( P(x) ) à payer en fonction du nombre d’heures ( x ).
+2. Calculer le prix pour 3 heures de location.
+3. Combien d’heures peut-on louer le vélo avec un budget de 20 € ?
+4. Représenter graphiquement la fonction.",une personne (féminin et masculin),"Une personne (féminin et masculin, pas un prénom)",,"Une personne: souhaite louer un vélo, paie le tarif",aucun,aucun,Location de vélo | location de vélos,Location de vélos et proportionnalité,euro,euro,,
+ex024,"**Jeu de cartes**
+Un jeu de cartes est composé de 52 cartes. On veut les répartir en paquets identiques contenant chacun le même nombre de cœurs et le même nombre de piques.
+Quel est le nombre maximum de paquets possibles si le jeu contient 13 cœurs et 13 piques ?",,,,,aucun,aucun,Jeu de carte | jeu de cartes,Répartition de cartes en paquets,,,,
+ex025,"**Partage d’une somme**
+On partage une somme d’argent entre deux amis. Le premier reçoit 10 € de plus que le second.
+Au total, ils se partagent 70 €.
+Combien chacun reçoit-il ?",le premier (masculin) | le second (masculin),"deux amis (masculin, pas un prénom)",,"deux amis: reçoivent une somme d'argent, le premier reçoit 10 € de plus que le second",masculin,masculin,partage d'argent | partage d'une somme,Partage d'une somme d'argent,euro,euro,,
+ex026,"**Le tirage de boules**
+Une urne contient 4 boules rouges et 3 boules bleues. On tire une boule au hasard, on note sa couleur, puis on la remet dans l’urne. On tire ensuite une deuxième boule.
+- Construis un arbre de probabilité décrivant cette expérience.
+- Calcule la probabilité d’obtenir deux boules de la même couleur.
+- Calcule la probabilité d’obtenir au moins une boule bleue.",,,,,aucun,aucun,ritage de boules | le tirage de boules,Tirage de boules dans une urne,,,,
+ex027,"**Exercice 2 : Temps de trajet**
+
+Voici les temps (en minutes) mis par 9 élèves pour venir au collège :
+25 ; 30 ; 20 ; 35 ; 40 ; 25 ; 30 ; 20 ; 50.
+
+1. Range ces données dans l’ordre croissant.
+2. Détermine la **médiane**.
+3. Calcule la **moyenne**.
+4. Un nouvel élève arrive et met 60 minutes pour venir. Quel effet cela a-t-il sur la moyenne ? sur la médiane ?",un nouvel élève (masculin),"9 élèves (masculin, pas un prénom) | Un nouvel élève (masculin, pas un prénom)",nouveau,9 élèves: mettent un temps pour venir au collège | Un nouvel élève: met 60 minutes pour venir,inclusif,masculin,temps de trajet | temps de trajet,Temps de trajet au collège,,,,
+ex028,"**Exercice 5 : Notes pondérées**
+
+Un élève a obtenu les notes suivantes en mathématiques :
+
+* Contrôle 1 : 10 (coefficient 2)
+* Contrôle 2 : 14 (coefficient 3)
+* Contrôle 3 : 8 (coefficient 1)
+
+1. Calcule la **moyenne pondérée** de cet élève.
+2. Explique pourquoi on utilise des coefficients.
+3. Si toutes les notes avaient le même coefficient, la moyenne serait-elle différente ? Justifie sans forcément recalculer.",un élève (masculin),"Un élève (masculin, pas un prénom)",11.6/20 (garçon),Un élève: a obtenu des notes en mathématiques,aucun,aucun,"notes pondérées | notes pondérées, mathématiques",Calcul de moyenne pondérée,,,notes sur 20,notes sur 20
+ex029,"**Détermination d’une fonction linéaire**
+
+Problème 2
+
+| Consigne |
+|----------|
+| Un magasin propose une réduction de 20% sur tous ses articles.<br/>1. Soit \( p \) le prix initial d’un article. Exprimer le prix final \( P \) après réduction en fonction de \( p \).<br/>2. Quelle est la nature de cette fonction ? Justifier.<br/>3. Calculer le prix final d’un article coûtant initialement 85 €. |",un magasin (neutre (objet)),"Un magasin (neutre (objet), pas un prénom)",,Un magasin: propose une réduction de 20%,aucun,aucun,"fonction linéaire | réduction de prix, soldes",Réduction de prix en magasin,euro,euro,,
+ex030,"**Exercice 3 : Salaire d’un job étudiant**
+Un·e étudiant·e est payé·e 9 € de l’heure pour un travail ponctuel.
+
+1. Exprimer le salaire ( S(h) ) en fonction du nombre d’heures travaillées ( h ).
+2. Calculer le salaire pour 7 heures de travail.
+3. Combien d’heures faut-il travailler pour gagner 63 € ?
+4. Représenter la fonction dans un repère.",Un·e étudiant·e (féminin et masculin),"Un·e étudiant·e (féminin et masculin, pas un prénom)",,"Un·e étudiant·e: est payé·e 9 € de l’heure, travaille",aucun,aucun,salaire d'un job étudiant | salaire d'un job étudiant,Calcul du salaire horaire,euro,euro,,
+ex031,"**Exercice 1 : Choix d’une boisson**
+
+Dans un distributeur, 60 % des boissons sont des sodas et 40 % sont des jus de fruits.
+Parmi les sodas, 25 % sont sans sucre.
+Parmi les jus de fruits, 10 % sont sans sucre.
+
+1. Représenter la situation à l’aide d’un arbre de probabilité.
+2. Calculer la probabilité qu’une boisson choisie au hasard soit un soda sans sucre.
+3. Calculer la probabilité qu’une boisson soit sans sucre.
+4. On choisit une boisson sans sucre. Quelle est la probabilité que ce soit un jus de fruits ?",,,,,aucun,aucun,choix d'une boisson dans un distributeur | choix d'une boisson,Probabilités sur le choix d'une boisson,,,,
+ex032,"**Notes d’un contrôle**
+Une classe de 12 élèves a obtenu les notes suivantes à un contrôle de mathématiques :
+8 ; 12 ; 15 ; 9 ; 10 ; 14 ; 7 ; 13 ; 11 ; 10 ; 16 ; 6.
+
+1. Calcule la moyenne de la classe.
+2. Détermine la médiane de cette série.
+3. La moyenne est-elle représentative des résultats ? Justifie.",une classe (neutre (objet)),"Une classe de 12 élèves (masculin, pas un prénom)",,Une classe de 12 élèves: a obtenu les notes,inclusif,masculin,"notes d'un controle | notes d'un contrôle, contrôle de mathématiques",Statistiques sur les notes d'un contrôle,,,notes sur 20,notes sur 20
+ex033,"**Répartition des tâches**
+Dans un club de théâtre, il y a 24 membres. Pour préparer le spectacle, la professeure veut répartir les membres en deux groupes : un groupe pour les décors et un groupe pour les costumes. Elle souhaite que le groupe “décors” ait 4 membres de plus que le groupe “costumes”.
+**Combien de membres y aura-t-il dans chaque groupe ?**",la professeure (féminin) | un groupe (neutre (objet)),"la professeure (féminin, pas un prénom) | les membres (neutre (objet), pas un prénom)",,"la professeure: veut répartir les membres, souhaite une répartition spécifique | les membres: sont répartis en deux groupes",inclusif,inclusif,"répartition de théatre | répartition des tâches, théatre, spectacle de théatre",Répartition des membres d'un club,,,,
+ex034,"On a deux rubans, l’un mesure 150 cm et l’autre 210 cm. On veut les découper en morceaux de même longueur, la plus grande possible, sans faire de chute. Quelle sera la longueur de chaque morceau ? Combien de morceaux obtiendra-t-on pour chaque ruban ?",,,,,aucun,aucun,découpage de ruban | découpe de rubans,découpage de rubans en morceaux égaux,,,système métrique,système métrique
+ex035,"**Salaire d’un job étudiant**
+Un étudiant est payé 12 € par heure de travail.
+
+1. Exprimer son salaire en fonction du nombre d’heures travaillées.
+2. Combien gagne-t-il pour 5 heures ? pour 12 heures ?
+3. Représenter graphiquement cette fonction.
+4. Combien d’heures doit-il travailler pour gagner 96 € ?",un étudiant (masculin),"Un étudiant (masculin, pas un prénom)",12/h (garçon),"Un étudiant: est payé 12 € par heure, travaille",aucun,aucun,salaire d'un job étudiant | salaire d'un job étudiant,Calcul du salaire horaire,euro,euro,,
+ex036,"**Pavage de cour**
+Un artisan doit paver une cour rectangulaire de 360 cm de long et 270 cm de large avec des dalles carrées identiques, sans découper les dalles.
+Quelle est la plus grande taille possible pour le côté des dalles ?",un artisan (masculin),"Un artisan (masculin, pas un prénom)",,Un artisan: doit paver une cour,aucun,aucun,pavage de cour | pavage de cour,Pavage d'une cour rectangulaire,,,système métrique,système métrique
+ex037,"**Problème de mélange**
+Un chimiste veut obtenir 500 ml d’une solution à 12 % d’acide en mélangeant une solution à 10 % et une autre à 20 %.
+Quelle quantité de chaque solution doit-il utiliser ?",un chimiste (masculin),"Un chimiste (masculin, pas un prénom)",,"Un chimiste: veut obtenir une solution, mélange des solutions",aucun,aucun,"mélange | problème de mélange, solution chimique, chimie",Mélange de solutions acides,,,,système métrique
+ex038,"**Problème de partage équitable**
+Léo et Emma ont économisé ensemble 120 CHF. Léo a économisé trois fois plus qu’Emma.
+Quelle somme chacun a-t-il économisée ?","Léo (masculin, européen) | Emma (féminin, européen)","Léo (masculin, européen) | Emma (féminin, européen)","a économisé plus | Léo a economisé 90, Emma 30, garcon > fille",Léo: a économisé trois fois plus qu'Emma | Emma: a économisé moins que Léo,aucun,aucun,partage de sous | Économie,partage équitable d'une somme,franc suisse,franc suisse,,
+ex039,"**Comparaison de deux fonctions linéaires**
+
+Problème 5
+
+| Consigne |
+|----------|
+| Deux opérateurs téléphoniques proposent les tarifs suivants :<br/>- Opérateur A : 0,15 € par minute de communication.<br/>- Opérateur B : 0,10 € par minute + 5 € d’abonnement mensuel.<br/>1. Exprimer le coût mensuel \( C_A \) et \( C_B \) en fonction du nombre \( m \) de minutes pour chaque opérateur.<br/>2. À partir de combien de minutes l’opérateur A devient-il plus intéressant ?<br/>3. Représenter graphiquement les deux fonctions pour \( m \) allant de 0 à 100 minutes. |",Opérateur A (masculin) | Opérateur B (masculin),"Deux opérateurs téléphoniques (neutre (objet), pas un prénom)",,"Deux opérateurs téléphoniques: proposent des tarifs, opérateur A : 0,15 € par minute, opérateur B : 0,10 € par minute + 5 € d’abonnement",aucun,aucun,"comparaison de fonction | opérateurs téléphoniques, tarifs",Comparaison de tarifs téléphoniques,euro,euro,,
+ex040,"**Exercice 4 : Défaut de fabrication**
+
+Une usine produit des pièces avec deux machines A et B.
+
+* La machine A fabrique 55 % des pièces, la machine B en fabrique 45 %.
+* 2 % des pièces de la machine A sont défectueuses.
+* 5 % des pièces de la machine B sont défectueuses.
+
+1. Construire un arbre de probabilité.
+2. Calculer la probabilité qu’une pièce choisie au hasard soit défectueuse.
+3. Une pièce est défectueuse. Quelle est la probabilité qu’elle provienne de la machine B ?
+4. Quelle machine semble la plus fiable ? Justifier.",une usine (neutre (objet)),"Une usine (féminin, pas un prénom) | deux machines A et B (neutre (objet), pas un prénom)",,"Une usine: produit des pièces | deux machines A et B: fabrique des pièces, produit des pièces défectueuses",aucun,aucun,"Défaut de fabrication | défaut de fabrication, fabrication de pièces",Probabilités et défauts de fabrication,,,,
+ex041,"**Préparation de sachets de graines**
+Un jardinier a 168 graines de tomates et 210 graines de courgettes. Il veut les répartir dans des sachets, tous identiques, en utilisant toutes les graines.
+**a)** Quel est le nombre maximal de sachets qu’il peut préparer ?
+**b)** Combien de graines de chaque type y aura-t-il dans chaque sachet ?",un jardinier (masculin),"Un jardinier (masculin, pas un prénom)",,"Un jardinier: possède des graines, répartit les graines",aucun,aucun,"sachet de graines | préparation de sachets de graines, jardin, sachets de graines",Répartition de graines en sachets,,,,
+ex042,"**Problème concret : consommation d’essence**
+
+Problème 3
+
+| Consigne |
+|----------|
+| Une voiture consomme 6 litres d’essence pour 100 km.<br/>1. Exprimer la quantité \( Q \) d’essence consommée (en litres) en fonction de la distance \( d \) parcourue (en km).<br/>2. Quelle distance peut-on parcourir avec 30 litres d’essence ?<br/>3. Représenter graphiquement cette situation pour \( d \) allant de 0 à 500 km. |",une voiture (neutre (objet)),,,,aucun,aucun,"Consommation d'essence | consommation d'essence, essence",consommation d'essence d'une voiture,,,système métrique,système métrique
+ex043,"**Course à pied**
+Deux coureurs s’entraînent sur une piste. Le premier fait le tour de la piste en 12 minutes, le second en 18 minutes. Ils partent en même temps du même point.
+Au bout de combien de temps se retrouveront-ils pour la première fois au point de départ en même temps ?",le premier (masculin) | le second (masculin),"Deux coureurs (masculin, pas un prénom)",,"Deux coureurs: s'entraînent sur une piste, font le tour de la piste en 12 minutes (premier), font le tour de la piste en 18 minutes (second)",aucun,masculin,"Courses à pied | course à pied, athlétisme",Course à pied sur une piste,,,,
+ex044,"**La roue de loterie**
+Une roue de loterie est divisée en 4 secteurs : un rouge (probabilité 0,4), un bleu (probabilité 0,3), un vert (probabilité 0,2) et un jaune (probabilité 0,1). On fait tourner la roue deux fois de suite.
+**a)** Construis un arbre de probabilité pour cette expérience.
+**b)** Calcule la probabilité d’obtenir deux fois la même couleur.
+**c)** Calcule la probabilité d’obtenir au moins une fois le secteur rouge.",,,,,aucun,aucun,"Loterie | roue de loterie, loterie",Probabilités sur une roue de loterie,,,,
+ex045,"**Consommation d’essence**
+Une voiture consomme en moyenne 6 litres d’essence pour 100 km.
+
+1. Exprimer la quantité d’essence consommée en fonction de la distance parcourue.
+2. Calculer la consommation pour 250 km.
+3. Représenter cette situation par une fonction linéaire.
+4. Quelle distance peut-on parcourir avec 18 litres d’essence ?",une voiture (neutre (objet)),"Une voiture (neutre (objet), pas un prénom)",,Une voiture: consomme 6 litres d'essence pour 100 km,aucun,aucun,"Consommation d'essence | consommation d'essence, essence",Consommation d'essence d'une voiture,,,système métrique,système métrique
+ex046,"**Problème de prix et de réduction**
+Un magasin propose une réduction de 20 % sur un article. Après réduction, l’article coûte 40 CHF.
+Quel était le prix initial de l’article ?",un magasin (neutre (objet)),,,,aucun,aucun,"prix de réduction | réduction de prix, soldes",Calcul de prix après réduction,franc suisse,franc suisse,,
+ex047,"Une salle rectangulaire mesure 360 cm de long et 240 cm de large. On veut la recouvrir avec des carreaux carrés, tous identiques, les plus grands possibles, sans découpe. Quelle sera la longueur du côté d’un carreau ? Combien de carreaux seront nécessaires ?",,,,,aucun,aucun,surface d'une salle pour carrelage | carrelage,Recouvrement d'une salle par des carreaux,,,système métrique,système métrique
+ex048,"**Lecture graphique et calcul d’image**
+
+Problème 1
+
+| Consigne |
+|----------|
+| La courbe ci-dessous représente une fonction linéaire \( f \). On sait que \( f(2) = 4 \).<br/>1. Déterminer l’expression de \( f(x) \).<br/>2. Calculer \( f(-3) \) et \( f(0,5) \).<br/>3. Tracer la droite sur un repère en indiquant deux points. |",,,,,aucun,aucun,fonction linéaire | fonction linéaire,Fonction linéaire et lecture graphique,,,,
+ex049,"**Exercice 3 : Tirage de cartes**
+
+On tire une carte au hasard dans un jeu.
+On considère les événements suivants :
+
+* A : « la carte est un cœur » (probabilité 1/4),
+* B : « la carte est une figure (valet, dame, roi) ».
+
+On sait que parmi les cœurs, 3 cartes sont des figures, et qu’il y a 12 figures dans le jeu.
+
+1. Représenter la situation avec un arbre de probabilité.
+2. Calculer la probabilité que la carte tirée soit un cœur et une figure.
+3. Calculer la probabilité que la carte soit une figure.
+4. Calculer la probabilité que la carte soit un cœur sachant que c’est une figure.",,,,,aucun,aucun,"tirage de carte | tirage de cartes, cartes",Tirage de cartes et probabilités,,,,
+ex050,"**Le lancer de dé truqué**
+Un dé à six faces est truqué : la probabilité d’obtenir un 6 est de 0,3, et les autres faces ont la même probabilité.
+- Construis un arbre de probabilité représentant les issues possibles lors d’un lancer.
+- Calcule la probabilité d’obtenir un nombre pair.
+- Calcule la probabilité d’obtenir un nombre strictement inférieur à 4.",,,,,aucun,aucun,"lancé de dés | lancer de dé truqué, lancer de dé, dé",Probabilités avec un dé truqué,,,,
+ex051,"**Antécédent et proportionnalité**
+
+Problème 4
+
+| Consigne |
+|----------|
+| Soit \( g \) une fonction linéaire telle que \( g(5) = 7 \).<br/>1. Déterminer l’expression de \( g(x) \).<br/>2. Quel est l’antécédent de 14 par \( g \) ?<br/>3. Compléter le tableau de valeurs suivant :<br/>   \( x \) | 0 | 2 | 10<br/>   \( g(x) \) | ... | ... | ... |",,,,,aucun,aucun,fonction linéaire | antécédent et proportionalité,Fonction linéaire et antécédent,,,,
+ex052,"**Salaires dans une entreprise**
+Voici les salaires mensuels (en euros) des employés d’une petite entreprise :
+1800 – 2100 – 1900 – 2300 – 2000 – 2200 – 1700 – 2500 – 2100 – 2400
+a) Calcule le salaire moyen dans cette entreprise.
+b) Quel est le salaire médian ?
+c) Le patron embauche un nouvel employé avec un salaire de 3000 €. Que deviennent la moyenne et la médiane ?",une petite entreprise (neutre (objet)) | le patron (masculin),"employés (masculin, pas un prénom) | patron (masculin, pas un prénom)",petite | homme 3000 + que la moyenne,"employés: salaires mensuels entre 1700 et 2500 euros | patron: embauche un nouvel employé, salaire de 3000 euros",masculin,masculin,salaires mensuels (euros) | salires dans une entreprise,Calcul de moyenne et médiane de salaires,euro,euro,,
+ex053,"**Résultats sportifs**
+Un athlète a couru 8 courses avec les temps suivants (en secondes) :
+12,5 ; 12,8 ; 12,6 ; 12,7 ; 13,5 ; 12,4 ; 12,6 ; 12,7.
+
+1. Calcule le temps moyen.
+2. Détermine la médiane.
+3. Que remarques-tu si on enlève le temps de 13,5 s ?",un athlète (masculin),"Un athlète (masculin, pas un prénom)",,Un athlète: a couru 8 courses,aucun,aucun,"Courses à pied | résultats sportifs, athlétisme, course",Statistiques sur des temps de course,,,,
+ex054,"**Exercice 4 : Distance parcourue à vélo**
+Une personne roule à vitesse constante de 15 km/h.
+
+1. Exprimer la distance ( d(t) ) parcourue en fonction du temps ( t ) en heures.
+2. Calculer la distance parcourue en 2,5 heures.
+3. Combien de temps faut-il pour parcourir 45 km ?
+4. Expliquer pourquoi cette situation correspond à une fonction linéaire.",une personne (féminin et masculin),"Une personne (féminin et masculin, pas un prénom)",,Une personne: roule à vitesse constante de 15 km/h,aucun,aucun,"distance de vélo | distance parcourue à vélo, cyclisme",Distance parcourue à vélo,,,système métrique,système métrique
+ex055,"**Le choix des activités**
+Dans une classe de troisième, 60 % des élèves choisissent l’option latin, 30 % choisissent l’option grec et 10 % ne choisissent aucune option. On interroge deux élèves au hasard.
+- Construis un arbre de probabilité pour cette situation.
+- Calcule la probabilité que les deux élèves aient choisi le latin.
+- Calcule la probabilité qu’au moins un élève ait choisi le grec.",une classe de troisième (neutre (objet)) | un élève (masculin),"élèves (masculin, pas un prénom)",,"élèves: choisissent l'option latin, choisissent l'option grec, ne choisissent aucune option",inclusif,masculin,"choix d'activité | choix des activités, options",Choix d'options de langues anciennes,,,,
+ex056,"**Exercice 4 : Salaire dans une entreprise**
+
+Dans une petite entreprise, les salaires mensuels (en euros) sont les suivants :
+1200 ; 1300 ; 1400 ; 1500 ; 1600 ; 1700 ; 8000.
+
+1. Calcule la **moyenne** des salaires.
+2. Détermine la **médiane**.
+3. Un journaliste affirme que « le salaire moyen est représentatif de cette entreprise ». Es-tu d’accord ? Justifie.",une petite entreprise (neutre (objet)) | un journaliste (masculin),"une petite entreprise (neutre (objet), pas un prénom) | Un journaliste (masculin, pas un prénom)",petite,Un journaliste: affirme que le salaire moyen est représentatif,aucun,masculin,"salaire d'une entreprise | salaire dans une entreprise, salaires",Statistiques sur les salaires,euro,euro,,
+ex057,"**Exercice 5 : Organisation de séances d’entraînement**
+Un club propose deux activités : une séance de course tous les **18 jours** et une séance de natation tous les **24 jours**.
+Les deux activités ont lieu aujourd’hui.
+
+1. Dans combien de jours les deux activités auront-elles lieu de nouveau le même jour ?
+2. Quel calcul permet de répondre à cette question ?",un club (neutre (objet)),"Un club (neutre (objet), pas un prénom)",,Un club: propose deux activités,aucun,aucun,oragnisation d'entrainement | organisation de séance d'entraînement,Organisation de séances d’entraînement,,,,
+ex058,"**Le choix des activités**
+Dans un club, 60% des élèves choisissent le football, 30% choisissent le basket et 10% choisissent le tennis. On interroge deux élèves au hasard.
+**a)** Construis un arbre de probabilité pour cette situation.
+**b)** Calcule la probabilité que les deux élèves aient choisi le même sport.
+**c)** Calcule la probabilité qu’au moins un élève ait choisi le football.",un club (masculin) | un élève (masculin),"un club (neutre (objet), pas un prénom) | élèves (masculin, pas un prénom)",,"élèves: choisissent le football, choisissent le basket, choisissent le tennis",inclusif,masculin,"choix d'activités de sport | choix des activités, sport",Probabilités sur le choix de sport,,,,
+ex059,"**Choix d’un dessert**
+
+Dans un restaurant :
+
+* 60 % des clients prennent un dessert.
+* Parmi ceux qui prennent un dessert, 70 % choisissent un gâteau et les autres une glace.
+* Parmi ceux qui ne prennent pas de dessert, 20 % prennent un café.
+
+1. Construire un arbre de probabilité.
+2. Calculer la probabilité qu’un client prenne un gâteau.
+3. Calculer la probabilité qu’un client ne prenne ni dessert ni café.
+4. Calculer la probabilité qu’un client prenne un café.",un client (masculin),"clients (masculin, pas un prénom)",,"clients: prennent un dessert, choisissent un gâteau, prennent un café",masculin,masculin,"choix de dessert | choix d'un dessert, dessert, restaurant",Choix d'un dessert dans un restaurant,,,,
+ex060,"**Exercice 5 : Achat de fruits**
+Dans un marché, le prix des pommes est de 2,5 € par kilogramme.
+
+1. Exprimer le prix ( P(m) ) à payer en fonction de la masse ( m ) achetée.
+2. Calculer le prix pour 1,2 kg de pommes.
+3. Quelle masse peut-on acheter avec 10 € ?
+4. Tracer la représentation graphique de la fonction.",,,,,aucun,aucun,"achat de fruit | achat de fruits, marché",Achat de pommes au marché,euro,euro,système métrique,système métrique
+ex061,"**Production d’une machine**
+Une machine fabrique 15 pièces par minute.
+
+1. Exprimer le nombre de pièces produites en fonction du temps (en minutes).
+2. Combien de pièces sont produites en 8 minutes ?
+3. Représenter la fonction correspondante.
+4. Combien de temps faut-il pour produire 300 pièces ?",machine (neutre (objet)),"Une machine (neutre (objet), pas un prénom)",,Une machine: fabrique 15 pièces par minute,aucun,aucun,"production de machine | production d'une machine, fabrication",Production d'une machine,,,,
+ex062,"Dans un collège, 72 élèves de troisième et 96 élèves de quatrième participent à un tournoi. On souhaite former des équipes identiques, composées uniquement d’élèves du même niveau, avec le même nombre d’élèves par équipe. Quel est le plus grand nombre d’élèves par équipe possible ? Combien d’équipes seront formées dans chaque niveau ?",,"élèves de troisième (masculin, pas un prénom) | élèves de quatrième (masculin, pas un prénom)",,,inclusif,masculin,"tournoi et equipes, système français!ais | tournoi, formation d'équipes",Formation d'équipes dans un tournoi,,,,
+ex063,"**Moyenne pondérée**
+Un élève a les coefficients suivants pour ses notes de français :
+- Devoir 1 : 12 (coefficient 2)
+- Devoir 2 : 15 (coefficient 3)
+- Devoir 3 : 9 (coefficient 1)
+Calcule la moyenne pondérée de cet élève en français.",un élève (masculin),"Un élève (masculin, pas un prénom)",moyen en français | 13/20 (garçon),Un élève: a des notes de français,aucun,aucun,moyennes pondérées | notes de français,Calcul de moyenne pondérée,,,notes sur 20,notes sur 20
+ex064,"**Course solidaire**
+Lors d’une course solidaire organisée par leur collège, Emma et Karim collectent des dons. Emma a déjà reçu 3 fois plus de dons que Karim. Si Karim reçoit encore 15 € de plus, ils auront chacun 75 €.
+**Quelle somme Karim avait-il au départ ?**","Emma (féminin, européen) | Karim (masculin, arabe / maghrébin)","Emma (féminin, pas un prénom) | Karim (masculin, arabe / maghrébin)",reçoit plus de dons | Emma recoit plus d'argent que karim,"Emma: a reçu 3 fois plus de dons que Karim | Karim: reçoit 15 € de plus, avait moins de dons au départ",aucun,masculin,"course solidaire | courrse solidaire, course",Course solidaire et collecte de dons,euro,euro,,
+ex065,"**Températures sur une semaine**
+Voici les températures relevées (en °C) sur 7 jours :
+18 ; 20 ; 19 ; 21 ; 22 ; 35 ; 20.
+
+1. Calcule la température moyenne.
+2. Détermine la médiane.
+3. Compare les deux résultats et explique l’écart.",,,,,aucun,aucun,température dans un système en Celsius | températures,Statistiques sur des températures,,,degrés Celsius,degrés Celsius
+ex066,"**Le sac de billes**
+Un sac contient 3 billes rouges, 2 billes bleues et 1 bille verte. On tire une première bille au hasard, on note sa couleur, puis on la remet dans le sac. On tire ensuite une deuxième bille.
+**a)** Construis un arbre de probabilité décrivant cette expérience.
+**b)** Calcule la probabilité de tirer deux billes de la même couleur.
+**c)** Calcule la probabilité de tirer au moins une bille rouge.",,,,,aucun,aucun,"sac de billes | sac de billes, billes",Tirage de billes avec remise,,,,
+ex067,"**Tarif de location de vélos**
+Une entreprise propose la location de vélos à un tarif proportionnel au nombre d’heures.
+Le prix est de 4 € par heure.
+
+1. Exprimer le prix à payer en fonction du nombre d’heures louées.
+2. Calculer le prix pour 3 heures puis pour 7,5 heures.
+3. Représenter graphiquement cette fonction.
+4. Combien d’heures peut-on louer avec un budget de 26 € ?",une entreprise (neutre (objet)),"Une entreprise (neutre (objet), pas un prénom)",,"Une entreprise: propose la location de vélos, fixe le tarif",aucun,aucun,"location de vélo, européen | location de vélos",Tarif de location de vélos,euro,euro,,
+ex068,"**Exercice 2 : Consommation d’eau**
+Dans un logement, la consommation d’eau est proportionnelle au temps d’utilisation d’un robinet ouvert. Le débit est de 12 litres par minute.
+
+1. Exprimer le volume d’eau ( V(t) ) en fonction du temps ( t ) en minutes.
+2. Calculer la quantité d’eau utilisée en 5 minutes.
+3. Combien de temps faut-il pour consommer 60 litres d’eau ?
+4. La situation est-elle modélisée par une fonction linéaire ? Justifier.",,,,,aucun,aucun,consommation d'eau | consommation d'eau,Consommation d'eau dans un logement,,,,système métrique
+ex069,"**Comparaison moyenne/médiane**
+Deux classes de 3e ont passé le même test. Voici les notes obtenues :
+- Classe A : 8 – 10 – 12 – 14 – 16 – 18
+- Classe B : 6 – 10 – 12 – 14 – 16 – 20
+a) Calcule la moyenne et la médiane pour chaque classe.
+b) Compare les résultats. Que peux-tu en déduire ?",,,,,inclusif,masculin,"notes des tests, système français | notes, test",Comparaison de notes de mathématiques,,,notes sur 20,notes sur 20
+ex070,"**Le jeu de cartes**
+Un jeu de 32 cartes est bien mélangé. On tire une carte, on la remet, puis on en tire une deuxième.
+- Construis un arbre de probabilité pour cette expérience.
+- Calcule la probabilité de tirer deux cœurs.
+- Calcule la probabilité de ne tirer aucun cœur.",,,,,aucun,aucun,jeu de carte | jeu de cartes,Probabilités avec un jeu de cartes,,,,
+ex071,"**Exercice 1 : Résultats d’un contrôle**
+
+Dans une classe de 3e, les élèves ont obtenu les notes suivantes à un contrôle de mathématiques :
+8 ; 12 ; 15 ; 9 ; 11 ; 14 ; 10 ; 13 ; 7 ; 16 ; 12.
+
+1. Calcule la **moyenne** de la classe (arrondie au dixième si nécessaire).
+2. Détermine la **médiane** de cette série de notes.
+3. Explique ce que représentent ces deux valeurs pour la classe.",une classe (féminin et masculin),"les élèves (masculin, pas un prénom)",,les élèves: ont obtenu des notes,inclusif,masculin,"controle de mathématiques | résultats d'un contôle, mathématiques",Statistiques sur des notes de contrôle,,,notes sur 20,notes sur 20
+ex072,"**Décoration de la salle de classe**
+Pour décorer la salle de classe, les élèves veulent accrocher des guirlandes lumineuses. Ils ont une guirlande rouge de 210 ampoules et une guirlande bleue de 252 ampoules. Ils veulent les couper en morceaux de même longueur, sans gaspiller d’ampoules.
+**a)** Quelle est la longueur maximale (en nombre d’ampoules) de chaque morceau ?
+**b)** Combien de morceaux obtiendront-ils pour chaque couleur ?",,"les élèves (masculin, pas un prénom)",,"les élèves: veulent décorer la salle, veulent couper les guirlandes",masculin,masculin,"d&coration de salle | décoration de la salle de classe, décorations",Décoration de la salle de classe,,,,
+ex073,"**Jeu de dés**
+
+On lance un dé équilibré à six faces.
+
+* Si le résultat est pair, on lance une deuxième fois le dé.
+* Si le résultat est impair, on tire une carte dans un jeu contenant 4 cartes rouges et 6 cartes noires.
+
+1. Construire un arbre représentant toutes les issues possibles.
+2. Calculer la probabilité d’obtenir un nombre pair puis un nombre supérieur à 4.
+3. Calculer la probabilité d’obtenir un nombre impair puis une carte rouge.
+4. Calculer la probabilité d’obtenir une carte noire.",,,,,aucun,aucun,tir de dés | jeu de dés,Jeu de dés et de cartes,,,,
+ex074,"**Exercice 4 – La sortie cinéma**
+Pour aller au cinéma, un groupe d’ami·e·s achète des places à 7 € chacune. Si la dépense totale est de 63 €, combien de personnes sont parties au cinéma ?
+*(Équation : ( 7x = 63 ))*",un groupe d’ami·e·s (féminin et masculin),"un groupe d’ami·e·s (féminin et masculin, pas un prénom)",,"un groupe d’ami·e·s: achète des places, dépense totale de 63 €",inclusif,inclusif,"sortie au cinéma, européen | la sortie du cinéma, cinéma",achat de places de cinéma,euro,euro,,
+ex075,"**Abonnement à une salle de sport**
+Une salle de sport propose deux formules d’abonnement :
+- **Formule A** : 15 € par mois, sans frais d’inscription.
+- **Formule B** : 10 € par mois, avec des frais d’inscription de 20 €.
+
+On note \( f(x) \) le coût total en euros pour \( x \) mois d’abonnement avec la formule A, et \( g(x) \) le coût total pour \( x \) mois avec la formule B.
+
+**a)** Exprime \( f(x) \) et \( g(x) \) sous la forme de fonctions linéaires.
+**b)** Représente graphiquement ces deux fonctions sur un même repère, pour \( x \) allant de 0 à 12 mois.
+**c)** À partir de combien de mois la formule A devient-elle plus avantageuse que la formule B ?",une salle de sport (neutre (objet)),,,,aucun,aucun,abonnement à la salle de sport | abonnement à une salle de sport,Abonnement à une salle de sport,euro,euro,,
+ex076,"**Exercice 3 : Aménagement d’un jardin partagé**
+Dans un jardin collectif, une personne dispose d’un terrain rectangulaire de **72 m de long** et **90 m de large**.
+Elle veut le diviser en carrés identiques les plus grands possibles, sans perte de surface.
+
+1. Quelle sera la longueur du côté de chaque carré ?
+2. Combien de carrés seront ainsi obtenus ?",une personne (féminin et masculin),"une personne (féminin et masculin, pas un prénom)",,"une personne: dispose d'un terrain, veut diviser le terrain",aucun,aucun,"aménagmeent de jardin | aménagement d'un jardin partagé, jardin",Aménagement d'un jardin partagé,,,système métrique,système métrique
+ex077,"**Exercice 5 : Jeu de hasard**
+
+Dans un jeu, un joueur lance une pièce truquée :
+
+* la probabilité d’obtenir pile est 0,6.
+
+Si le joueur obtient pile, il tire ensuite une boule dans une urne U1 contenant 3 boules rouges et 2 boules bleues.
+S’il obtient face, il tire dans une urne U2 contenant 1 boule rouge et 4 boules bleues.
+
+1. Représenter la situation par un arbre de probabilité.
+2. Calculer la probabilité d’obtenir une boule rouge.
+3. Calculer la probabilité d’obtenir une boule bleue.
+4. On a obtenu une boule rouge. Quelle est la probabilité que la pièce soit tombée sur pile ?",un joueur (masculin),"un joueur (masculin, pas un prénom)",,"un joueur: lance une pièce, tire une boule",aucun,aucun,jeu truqué | jeu de hasard,Jeu de hasard avec urnes,,,,
+ex078,"**Exercice 2 : Réussite à un test**
+
+Un élève passe un test de mathématiques.
+On sait que :
+
+* 70 % des élèves ont révisé,
+* parmi ceux qui ont révisé, 80 % réussissent le test,
+* parmi ceux qui n’ont pas révisé, 30 % réussissent le test.
+
+1. Construire un arbre de probabilité représentant la situation.
+2. Calculer la probabilité qu’un élève réussisse le test.
+3. On sait qu’un élève a réussi. Quelle est la probabilité qu’il ait révisé ?
+4. Interpréter ce résultat.",un élève (masculin),"Un élève (masculin, pas un prénom)",,"Un élève: passe un test, réussit le test",masculin,masculin,"test de mathématique | réussite à un test, test de mathématiques",Probabilité de réussite à un test,,,,
+ex079,"**Le prix des cahiers**
+Dans une papeterie, Léa achète 3 cahiers identiques et un stylo qui coûte 2 €. Elle paie en tout 11 €.
+Quel est le prix d’un cahier ?","papeterie (neutre (objet)) | Léa (féminin, européen)","Léa (féminin, européen)",,"Léa: achète des cahiers, paie 11 €",aucun,aucun,"prix de cahier | prix des cahiers, papeterie",Calcul du prix unitaire d'un cahier,euro,euro,,
+ex080,"**La roue de loterie**
+Une roue de loterie est divisée en 8 secteurs de même taille : 3 secteurs rouges, 2 secteurs verts, 2 secteurs bleus et 1 secteur jaune. On fait tourner la roue deux fois de suite.
+- Construis un arbre de probabilité pour cette expérience.
+- Calcule la probabilité d’obtenir deux fois la même couleur.
+- Calcule la probabilité d’obtenir au moins une fois du rouge.",,,,,aucun,aucun,"roue de loterie | roue de loterie, loterie",Probabilités sur une roue de loterie,,,,
+ex081,"**Le dé truqué**
+Un dé à six faces est truqué : la probabilité d’obtenir un 6 est de 0,3, et les autres faces ont la même probabilité.
+On lance ce dé deux fois de suite.
+**a)** Construis un arbre de probabilité pour cette expérience.
+**b)** Calcule la probabilité d’obtenir deux fois le même nombre.
+**c)** Calcule la probabilité d’obtenir au moins un 6.",,,,,aucun,aucun,"dé truqué | dé truqué, dé",Probabilités avec un dé truqué,,,,
+ex082,"**Organisation d’un tournoi sportif**
+Un club sportif organise un tournoi de basket. Il y a 120 filles et 180 garçons inscrits. Le responsable veut former des équipes mixtes, toutes de même taille, en utilisant tous les participants.
+**a)** Quel est le nombre maximal d’équipes qu’il peut former ?
+**b)** Combien de filles et de garçons y aura-t-il dans chaque équipe ?",un club sportif (neutre (objet)) | le responsable (masculin),"Un club sportif (neutre (objet), pas un prénom) | Le responsable (masculin, pas un prénom)",equipes mixtes,"Un club sportif: organise un tournoi, veut former des équipes | Le responsable: veut former des équipes mixtes",masculin,masculin,"organisation d'un tournoi de sport | tournoi sportif, basket",Organisation d’un tournoi de basket,,,,
+ex083,"**Problème de vitesse**
+Deux trains partent en même temps de deux villes distantes de 300 km. Le premier train roule à 80 km/h et le second à 100 km/h, mais dans des sens opposés.
+Au bout de combien de temps seront-ils à la même distance de la ville de départ du premier train ?",Le premier train (neutre (objet)) | Le second (neutre (objet)),"Deux trains (neutre (objet), pas un prénom)",,"Deux trains: roulent à 80 km/h, roulent à 100 km/h, partent en même temps",objets,objets,"vitesse de transprts | vitesse, train",Mouvement de deux trains,,,système métrique,système métrique
+ex084,"**Exercice 3 : Comparaison de deux classes**
+
+Deux classes passent le même test.
+
+* Classe A : moyenne = 12 ; médiane = 13
+* Classe B : moyenne = 12 ; médiane = 10
+
+1. Quelle classe semble avoir de meilleurs résultats globaux ?
+2. Que peux-tu dire de la répartition des notes dans chaque classe ?
+3. Dans quelle classe y a-t-il probablement plus de notes faibles ?
+
+Justifie tes réponses.",,,,,inclusif,masculin,"comparaison de classe | notes, test",Comparaison de statistiques de classes,,,notes sur 20,notes sur 20
+ex085,"**Exercice 5 – Les livres à la bibliothèque**
+À la bibliothèque, le nombre de romans est égal à trois fois le nombre de bandes dessinées moins 2. Si le total de romans et de bandes dessinées est de 40, combien y a-t-il de romans et de bandes dessinées ?
+*(Équation : ( 3b - 2 + b = 40 ))*",,,,,aucun,aucun,"Distribution de livres | livres à la bibliothèque, livres",Équation sur le nombre de livres,,,,
+ex086,"**Location de vélos électriques**
+Un club de vélo propose la location de vélos électriques :
+- **Tarif 1** : 8 € de l’heure.
+- **Tarif 2** : 50 € la journée (8 heures).
+
+On note \( h(t) \) le prix en euros pour \( t \) heures de location avec le tarif 1.
+
+**a)** Exprime \( h(t) \) sous la forme d’une fonction linéaire.
+**b)** Calcule le prix pour 5 heures de location avec le tarif 1.
+**c)** À partir de combien d’heures de location le tarif 2 devient-il plus intéressant ?",un club de vélo (neutre (objet)),"Un club de vélo (neutre (objet), pas un prénom)",,Un club de vélo: propose la location de vélos électriques,aucun,aucun,location de vélo | location de vélos électriques,Location de vélos électriques,euro,euro,,
+ex087,"**Production en usine**
+
+Une usine possède deux machines A et B.
+
+* La machine A produit 40 % des pièces, la machine B 60 %.
+* 3 % des pièces produites par A sont défectueuses.
+* 5 % des pièces produites par B sont défectueuses.
+
+1. Construire un arbre de probabilité.
+2. Calculer la probabilité qu’une pièce soit défectueuse.
+3. Calculer la probabilité qu’une pièce soit produite par A et soit non défectueuse.
+4. On choisit une pièce défectueuse. Quelle est la probabilité qu’elle provienne de la machine B ?",une usine (neutre (objet)),"Une usine (féminin, pas un prénom) | deux machines A et B (féminin, pas un prénom)",,"deux machines A et B: produisent des pièces, produisent des pièces défectueuses",aucun,aucun,production d'usine | production en usine,Probabilités et production industrielle,,,,
+ex088,"**Décoration de salle**
+Pour décorer une salle, on dispose de 150 ballons rouges et 105 ballons bleus. On veut faire des bouquets identiques (même nombre de ballons rouges et bleus dans chaque bouquet) en utilisant tous les ballons.
+Quel est le nombre maximum de bouquets possibles ? Combien y aura-t-il de ballons rouges et bleus dans chaque bouquet ?",,,,,aucun,aucun,"Décoration de salles | décoration de salle, décoration",Décoration de salle avec des ballons,,,,
+ex089,"**Exercice 2 : Partage équitable de goûters**
+Lors d’une sortie scolaire, un groupe a préparé **48 cookies** et **60 jus de fruits**.
+On souhaite faire des lots identiques pour chaque élève, sans rien perdre.
+
+1. Combien peut-on faire de lots au maximum ?
+2. Que contient chaque lot ?",un groupe (féminin et masculin),"un groupe (neutre (objet), pas un prénom) | chaque élève (masculin, pas un prénom)",,"un groupe: a préparé 48 cookies, a préparé 60 jus de fruits | chaque élève: reçoit des lots identiques",aucun,masculin,partage de giyter | partage équitable de goûters,Partage équitable de goûters,,,,
+ex090,"**Salaire dans une entreprise**
+Dans une petite entreprise, les salaires mensuels (en euros) sont les suivants :
+1400 ; 1500 ; 1600 ; 1500 ; 1550 ; 1450 ; 5000.
+
+1. Calcule le salaire moyen.
+2. Détermine le salaire médian.
+3. Quel indicateur te semble le plus représentatif de la situation ? Pourquoi ?",une petite entreprise (neutre (objet)),,petite,,aucun,masculin,"Distribution de salaire | salaire dans une entreprise, salaires",Calcul de la moyenne et de la médiane,euro,euro,,
+ex091,"**Problème concret : consommation d’essence**
+Un automobiliste a relevé sa consommation d’essence (en litres) sur 5 trajets :
+45 – 52 – 48 – 50 – 43
+a) Calcule la consommation moyenne d’essence sur ces 5 trajets.
+b) Si l’automobiliste ajoute un 6e trajet où il a consommé 55 litres, quelle sera sa nouvelle moyenne ?
+c) Quelle est la médiane de la série initiale (5 trajets) ?",un automobiliste (masculin),"Un automobiliste (masculin, pas un prénom)",,"Un automobiliste: relève sa consommation, ajoute un trajet",aucun,aucun,"Consommation d'essence | consommation d'essence, essence",consommation d’essence d’un automobiliste,,,,système métrique
+ex092,"**Le jeu de cartes**
+Un jeu de 32 cartes est bien mélangé. On tire une première carte, on la remet dans le jeu, puis on tire une deuxième carte.
+**a)** Construis un arbre de probabilité pour cette expérience.
+**b)** Calcule la probabilité de tirer deux cœurs.
+**c)** Calcule la probabilité de tirer un roi puis un valet (dans cet ordre).",,,,,aucun,aucun,jeu de carte | jeu de cartes,Probabilités avec un jeu de cartes,,,,
+ex093,"**Exercice 2 – Le prix du ticket**
+Lors d’une sortie scolaire, chaque élève paie le même prix pour un ticket de musée. Si 15 élèves payent 6 € chacun et que l’enseignant doit ajouter 10 € pour compléter la somme totale, quelle est la somme totale dépensée ?
+*(Équation à résoudre pour trouver le total : ( 15x + 10 = \text{total} ))*",l'enseignant (masculin),"élève (féminin et masculin, pas un prénom) | enseignant (masculin, pas un prénom)",,"élève: paie le même prix, paie 6 € | enseignant: doit ajouter 10 €",inclusif,inclusif,"Prix du tucket | prix du ticket, musée",Calcul du prix total d'un ticket de musée,euro,euro,,
+ex094,"Une bibliothèque reçoit 198 livres de mathématiques et 264 livres de sciences. Elle souhaite les répartir dans des cartons identiques, contenant le même nombre de livres de chaque matière, en utilisant tous les livres. Quel est le nombre maximal de cartons possibles ? Combien de livres de chaque type y aura-t-il dans chaque carton ?",une bibliothèque (neutre (objet)),"Une bibliothèque (neutre (objet), pas un prénom)",,"Une bibliothèque: reçoit des livres, souhaite répartir les livres",aucun,aucun,Répartition de livre | cartons de bibliothèque,Répartition de livres en cartons,,,,
+ex095,"**Répartition de fournitures scolaires**
+Une association distribue des fournitures scolaires à des élèves. Elle dispose de 144 crayons et 192 cahiers. Elle veut préparer des kits identiques, en utilisant toutes les fournitures.
+**a)** Quel est le nombre maximal de kits qu’elle peut préparer ?
+**b)** Combien de crayons et de cahiers y aura-t-il dans chaque kit ?",Une association (neutre (objet)),"Une association (neutre (objet), pas un prénom) | des élèves (masculin, pas un prénom)",,"Une association: distribue des fournitures, prépare des kits | des élèves: reçoivent des fournitures",inclusif,masculin,"Répartition de fourniture | répartition de fournitures scolaires, fournitures scolaires",Répartition de fournitures scolaires,,,,
+ex096,"**Voyage scolaire**
+Pour un voyage scolaire, le prix du transport est de 15 € par élève. Le collège propose une réduction de 2 € par élève si plus de 30 élèves participent. Avec cette réduction, le coût total du transport est de 408 €.
+**Combien d’élèves participent au voyage ?**",le collège (neutre (objet)),"élève (masculin, pas un prénom) | le collège (neutre (objet), pas un prénom)",,"élève: participe au voyage, paie le transport | le collège: propose une réduction",inclusif,masculin,"Voyage scolaire | voyage scolaire, prix de transport",Voyage scolaire et coût du transport,euro,euro,,
+ex097,"**Test médical simplifié**
+
+Un test permet de détecter une maladie.
+
+* 2 % de la population est malade.
+* Si une personne est malade, le test est positif dans 95 % des cas.
+* Si une personne n’est pas malade, le test est négatif dans 90 % des cas.
+
+1. Représenter la situation avec un arbre de probabilité.
+2. Calculer la probabilité qu’une personne soit malade **et** que le test soit positif.
+3. Calculer la probabilité qu’une personne ait un test positif.
+4. On sait qu’une personne a un test positif. Quelle est la probabilité qu’elle soit malade ?",la population (féminin et masculin) | une personne (féminin et masculin),,,,aucun,aucun,test médical | test médical,Probabilités conditionnelles et test médical,,,,
+ex098,"**Exercice 1 – Partage équitable**
+Camille et Alex veulent partager équitablement une somme d’argent pour acheter des fournitures scolaires. Camille apporte 12 € et Alex apporte 8 € de plus que Camille. Si la somme totale qu’ils ont rassemblée est égale à 40 €, combien chacun doit-il contribuer pour que ce soit équitable ?
+*(Équation à résoudre : ( 12 + (12 + 8) = 40 ))*","Camille (féminin et masculin, européen) | Alex (féminin et masculin, européen)","Camille (féminin, pas un prénom) | Alex (masculin, pas un prénom)",Camille a moins d'argent | camille a moins d'argent,Camille: apporte 12 € | Alex: apporte 8 € de plus que Camille,aucun,masculin,"Partage d'argent | partage équitable, fournitures scholaires",Partage équitable d'une somme d'argent,euro,euro,,
+ex099,"**Exercice 3 – Le jardin partagé**
+Un groupe d’élèves plante des fleurs dans un jardin. Si le nombre de tulipes (t) est le double du nombre de roses (r) plus 4 et qu’au total ils ont planté 28 fleurs, combien y a-t-il de tulipes et de roses ?
+*(Équation : ( 2r + 4 + r = 28 ))*",un groupe d'élèves (féminin et masculin),"Un groupe d’élèves (masculin, pas un prénom)",,"Un groupe d’élèves: plante des fleurs, a planté 28 fleurs",masculin,masculin,jardin partagé | jardin partagé,Jardinage et résolution d'équation,,,,
+ex100,"**Tirage de boules**
+
+Une urne contient 5 boules rouges et 3 boules bleues. On tire successivement **deux boules sans remise**.
+
+1. Construire un arbre de probabilité correspondant à la situation.
+2. Calculer la probabilité d’obtenir deux boules rouges.
+3. Calculer la probabilité d’obtenir une boule rouge puis une boule bleue.
+4. Calculer la probabilité d’obtenir deux boules de couleurs différentes.",,,,,aucun,aucun,tirage de boules | tirage de boules,Tirage de boules dans une urne,,,,

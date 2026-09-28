@@ -3,7 +3,10 @@ name = "fairblabla"
 version = "0.1.0"
 description = "Evaluate training-free bias detection methods on bias-annotated test sets"
 requires-python = ">=3.12"
-dependencies = ["numpy"]
+dependencies = [
+    "numpy",
+    "openpyxl>=3.1.5",
+]
 
 [project.optional-dependencies]
 # Only needed for scripts/retrieve.py (on the cluster it runs inside the vLLM image).

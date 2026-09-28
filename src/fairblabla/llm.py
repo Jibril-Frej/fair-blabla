@@ -26,8 +26,10 @@ class Client:
             "temperature": 0.0,
             "top_p": 1.0,
             "seed": 0,
-            "chat_template_kwargs": {**self.template_kwargs, **(template_kwargs or {})},
         }
+        # Only sent when set: vLLM rejects any chat template option for Mistral-format tokenizers.
+        if kwargs := {**self.template_kwargs, **(template_kwargs or {})}:
+            body["chat_template_kwargs"] = kwargs
         if top_logprobs:
             body |= {"logprobs": True, "top_logprobs": top_logprobs}
         if structured:

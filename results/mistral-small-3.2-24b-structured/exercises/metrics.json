@@ -1,0 +1,120 @@
+{
+  "n": 100,
+  "n_failed": 0,
+  "subjects": {
+    "n_gold": 85,
+    "n_pred": 127,
+    "precision": 0.457,
+    "recall": 0.682,
+    "f1": 0.547
+  },
+  "genre": {
+    "n": 58,
+    "accuracy": 0.81,
+    "set_exact_match": 0.45,
+    "confusion": {
+      "féminin -> féminin": 6,
+      "féminin et masculin -> féminin": 2,
+      "féminin et masculin -> féminin et masculin": 5,
+      "féminin et masculin -> masculin": 2,
+      "féminin et masculin -> neutre (objet)": 1,
+      "masculin -> masculin": 20,
+      "masculin -> neutre (objet)": 2,
+      "neutre (objet) -> féminin": 3,
+      "neutre (objet) -> féminin et masculin": 1,
+      "neutre (objet) -> neutre (objet)": 16
+    }
+  },
+  "origine": {
+    "n": 11,
+    "accuracy": 1.0,
+    "origin_given_to_unannotated_subject": 0,
+    "confusion": {
+      "arabe / maghrébin -> arabe / maghrébin": 1,
+      "européen -> européen": 10
+    }
+  },
+  "pluriel": {
+    "accuracy": 0.8,
+    "macro_f1": 0.464,
+    "confusion": {
+      "aucun -> aucun": 66,
+      "aucun -> masculin": 2,
+      "inclusif -> aucun": 5,
+      "inclusif -> inclusif": 4,
+      "inclusif -> masculin": 11,
+      "masculin -> aucun": 1,
+      "masculin -> masculin": 10,
+      "objets -> aucun": 1
+    }
+  },
+  "traits": {
+    "n_gold": 12,
+    "accuracy": 0.48,
+    "precision": 0.177,
+    "recall": 0.917,
+    "f1": 0.297
+  },
+  "monnaie": {
+    "exact_match": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "unites": {
+    "exact_match": 0.81,
+    "precision": 0.578,
+    "recall": 1.0,
+    "f1": 0.732
+  },
+  "topic_judge": {
+    "judge": "qwen3.8-27b-fp8-structured",
+    "model_vs_both": {
+      "n": 100,
+      "mean": 0.849,
+      "share_yes": 0.86
+    },
+    "model_vs_mai": {
+      "n": 99,
+      "mean": 0.723,
+      "share_yes": 0.707
+    },
+    "model_vs_tuan_tu": {
+      "n": 100,
+      "mean": 0.826,
+      "share_yes": 0.83
+    },
+    "mai_vs_tuan_tu": {
+      "n": 99,
+      "mean": 0.813,
+      "share_yes": 0.818
+    },
+    "model_vs_other_exercise": {
+      "n": 100,
+      "mean": 0.019,
+      "share_yes": 0.02
+    }
+  },
+  "topic_similarity": {
+    "model_vs_both": {
+      "n": 100,
+      "mean": 0.838
+    },
+    "model_vs_mai": {
+      "n": 99,
+      "mean": 0.773
+    },
+    "model_vs_tuan_tu": {
+      "n": 100,
+      "mean": 0.808
+    },
+    "mai_vs_tuan_tu": {
+      "n": 99,
+      "mean": 0.795
+    },
+    "model_vs_other_exercise": {
+      "n": 100,
+      "mean": 0.464
+    }
+  }
+}

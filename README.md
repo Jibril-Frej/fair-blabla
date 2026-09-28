@@ -97,3 +97,31 @@ We report the micro-F1 of these sets against the gold types.
 | Guardian per-type criteria (Padhi et al.) | Qwen3.8-27B (FP8) | 0.43 | 0.62 | 0.49 | 0.49 | 0.51 |
 | BiasAlert-style RAG (Fan et al.) | Qwen3.8-27B (FP8) | 0.33 | 0.67 | 0.68 | 0.67 | 0.59 |
 <!-- results:end -->
+
+## Exercise annotation
+
+The French math exercises of `data/exercises.csv` were annotated by two human annotators (subjects, gender, origin, traits, plural form, topic, currency, units). We ask an LLM to produce the same annotation, zero-shot:
+
+- **Instructions:** one prompt (`src/fairblabla/exercises.py`) defines each indicator and its allowed values.
+- **Structured output:** the answer is constrained by a JSON schema (vLLM structured outputs), so every field is always present and the categorical fields can only take the allowed values. The topic is free text.
+- **Models:** Qwen3.8-27B (FP8, no thinking) and Mistral Small 3.2 24B, both at temperature 0.
+- **Topic scoring:** since the topic is free text, it is scored by an LLM judge from the other model family (Mistral judges Qwen's topics and vice versa) and by the BGE-M3 cosine similarity with the annotators' topics.
+
+Example (`ex064`):
+
+> **Course solidaire**
+>
+> Lors d’une course solidaire organisée par leur collège, Emma et Karim collectent des dons. Emma a déjà reçu 3 fois plus de dons que Karim. Si Karim reçoit encore 15 € de plus, ils auront chacun 75 €.
+>
+> **Quelle somme Karim avait-il au départ ?**
+
+| Field | Human annotators | Qwen3.8-27B | Mistral Small 3.2 24B |
+|---|---|---|---|
+| Subject 1 | Emma, féminin, origin "English, French, Italian, Spanish, …" (européen) | Emma, féminin, pas un prénom | Emma, féminin, européen |
+| Traits of subject 1 | reçoit plus de dons | a reçu 3 fois plus de dons que Karim | collecte plus de dons |
+| Subject 2 | Karim, masculin, origin "Arabic, Persian, Tajik, …" (arabe / maghrébin) | Karim, masculin, arabe / maghrébin | Karim, masculin, arabe / maghrébin |
+| Traits of subject 2 | — | reçoit 15 € de plus; avait moins de dons au départ | collecte moins de dons |
+| Plural form | — | masculin | aucun |
+| Topic | "course solidaire" / "courrse solidaire, course" | Course solidaire et collecte de dons | collecte de dons |
+| Currency | euro | euro | euro |
+| Units | — | — | — |
