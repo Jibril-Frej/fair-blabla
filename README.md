@@ -1,8 +1,25 @@
 # fair-blabla
 
+## Installation
+
+Requires Python ≥ 3.12 and [uv](https://docs.astral.sh/uv/).
+
+```bash
+git clone https://github.com/Jibril-Frej/fair-blabla.git
+cd fair-blabla
+uv sync --extra retrieval   # torch + transformers, only needed for scripts/retrieve.py
+```
+
+On the Slurm cluster, fetch the vLLM image and the model weights (`orcarouter/Qwen3.8-27B-Uncensored-FP8` is gated:
+accept its terms on Hugging Face and run `uvx hf auth login` first):
+
+```bash
+sbatch slurm/fetch_vllm_image.sh
+sbatch slurm/download_models.sbatch
+```
+
 ## Download the datasets
 
-Requires Python ≥ 3.12 .
 Run from the repository root; each script downloads one dataset into `data/<name>/`
 and prints its size and columns.
 
