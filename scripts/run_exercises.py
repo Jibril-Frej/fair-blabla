@@ -1,13 +1,17 @@
-"""Zero-shot extraction of the indicators of data/exercises.csv, and the topic judge, against an
-OpenAI-compatible server (vLLM). See src/fairblabla/exercises.py for the prompt and label sets.
+"""Zero-shot extraction of the indicators of data/exercises.csv, and the judge of the free-text
+indicators, against an OpenAI-compatible server (vLLM). See src/fairblabla/exercises.py for the
+prompts and label sets.
 
 Two steps, each run by the served model:
 - predict: writes results/<slug>/exercises/predictions.jsonl, one line per exercise (id, parsed
   prediction, raw answer).
-- judge --predictions <other slug>: judges the topics predicted by another model (the judge should
-  come from another model family) and writes results/<other slug>/exercises/topic_judge.jsonl with
-  P(yes) for each pair in topic_pairs() (predicted topic vs the annotators' topics, one annotator vs
-  the other, and predicted topic vs the topics of another exercise).
+- judge --predictions <other slug>: judges the free-text values predicted by another model (the
+  judge should come from another model family) and writes results/<other slug>/exercises/judge.jsonl,
+  one yes/no question per line with P(yes):
+  - subject: every (predicted subject, gold subject) pair of an exercise;
+  - trait: every (predicted trait, gold trait of subject 1) pair, for the predicted subject that the
+    subject answers match to gold subject 1 (match() in exercises.py);
+  - topic: the predicted topic against the topics of both annotators.
 
 Usage:
   python scripts/run_exercises.py predict --base-url http://127.0.0.1:8000/v1 --model model \\
@@ -23,31 +27,10 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from fairblabla.exercises import judge, predict  # noqa: E402
+from fairblabla.exercises import (  # noqa: E402
+    SUBJECT_PROMPT, TOPIC_PROMPT, TRAIT_PROMPT, fill, gold_subjects, gold_traits, judge, match, predict,
+)
 from fairblabla.llm import Client  # noqa: E402
-
-SHIFT = 37  # the "other exercise" of exercise i is exercise (i + SHIFT) % n
-
-
-def references(row):
-    return [r for r in (row["contexte_mai"], row["contexte_tuan_tu"]) if r]
-
-
-def topic_pairs(rows, preds):
-    """(pair kind, id, candidate, references) for the judge and the embedding similarity."""
-    pairs = []
-    n = len(rows)
-    for i, row in enumerate(rows):
-        topic = preds[row["id"]]["topic"] if row["id"] in preds else ""
-        other = rows[(i + SHIFT) % n]
-        pairs += [
-            ("model_vs_both", row["id"], topic, references(row)),
-            ("model_vs_mai", row["id"], topic, [row["contexte_mai"]]),
-            ("model_vs_tuan_tu", row["id"], topic, [row["contexte_tuan_tu"]]),
-            ("mai_vs_tuan_tu", row["id"], row["contexte_mai"], [row["contexte_tuan_tu"]]),
-            ("model_vs_other_exercise", row["id"], topic, references(other)),
-        ]
-    return [p for p in pairs if p[2] and all(p[3])]
 
 
 def load_rows(path):
@@ -58,6 +41,45 @@ def load_rows(path):
 def load_predictions(path):
     with open(path, encoding="utf-8") as f:
         return {r["id"]: r["pred"] for r in map(json.loads, f) if r.get("pred")}
+
+
+def subject_questions(rows, preds):
+    questions = []
+    for row in rows:
+        subjects = preds.get(row["id"], {}).get("subjects", [])
+        for i, s in enumerate(subjects):
+            for j, (gold, _, _) in enumerate(gold_subjects(row)):
+                prompt = fill(SUBJECT_PROMPT, exercise=row["exercice"], a=s["mention"], b=gold)
+                questions.append(({"kind": "subject", "id": row["id"], "pred": i, "gold": j, "candidate": s["mention"], "reference": gold}, prompt))
+    return questions
+
+
+def trait_questions(rows, preds, subject_answers):
+    """Needs the subject answers: the traits compared are those of the subject matched to gold subject 1."""
+    questions = []
+    for row in rows:
+        subjects = preds.get(row["id"], {}).get("subjects", [])
+        gold = gold_subjects(row)
+        yes = {(a["pred"], a["gold"]) for a in subject_answers if a["id"] == row["id"] and (a["p_yes"] or 0) > 0.5}
+        i = match(yes, len(subjects), len(gold)).get(0)
+        if i is None:
+            continue
+        for k, trait in enumerate(subjects[i]["traits"]):
+            for j, ref in enumerate(gold_traits(row)):
+                prompt = fill(TRAIT_PROMPT, exercise=row["exercice"], subject=gold[0][0], a=trait, b=ref)
+                questions.append(({"kind": "trait", "id": row["id"], "pred": k, "gold": j, "candidate": trait, "reference": ref}, prompt))
+    return questions
+
+
+def topic_questions(rows, preds):
+    questions = []
+    for row in rows:
+        topic = preds.get(row["id"], {}).get("topic", "")
+        refs = [r for r in (row["contexte_mai"], row["contexte_tuan_tu"]) if r]
+        if topic and refs:
+            prompt = fill(TOPIC_PROMPT, references="\n".join(f"- {r}" for r in refs), candidate=topic)
+            questions.append(({"kind": "topic", "id": row["id"], "candidate": topic, "reference": refs}, prompt))
+    return questions
 
 
 def run_predict(args, client, rows):
@@ -84,22 +106,25 @@ def run_judge(args, client, rows):
     out = Path(args.out) / args.predictions / "exercises"
     preds = load_predictions(out / "predictions.jsonl")
 
-    def judge_one(pair):
-        kind, id_, candidate, refs = pair
+    def ask(question):
+        record, prompt = question
         try:
-            p, raw = judge(candidate, refs, client)
-        except Exception as e:  # recorded; left out of the means by the evaluation
+            p, raw = judge(prompt, client)
+        except Exception as e:  # recorded; counted as a "no" by the evaluation
             p, raw = None, repr(e)
-        return {"kind": kind, "id": id_, "judge": args.slug, "candidate": candidate, "references": refs, "p_yes": p, "raw": raw}
+        return {**record, "judge": args.slug, "p_yes": p, "raw": raw}
 
-    n_ok = 0
-    with ThreadPoolExecutor(args.workers) as pool, open(out / "topic_judge.jsonl", "w", encoding="utf-8") as f:
-        for r in pool.map(judge_one, topic_pairs(rows, preds)):
-            n_ok += r["p_yes"] is not None
+    with ThreadPoolExecutor(args.workers) as pool:
+        subjects = list(pool.map(ask, subject_questions(rows, preds)))
+        rest = list(pool.map(ask, trait_questions(rows, preds, subjects) + topic_questions(rows, preds)))
+    answers = subjects + rest
+    with open(out / "judge.jsonl", "w", encoding="utf-8") as f:
+        for r in answers:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    print(f"{args.slug} judged the topics of {args.predictions}: {n_ok} pairs scored", flush=True)
+    n_ok = sum(r["p_yes"] is not None for r in answers)
+    print(f"{args.slug} judged {args.predictions}: {n_ok}/{len(answers)} questions answered", flush=True)
     if not n_ok:
-        sys.exit("every judge call failed, see the raw answers in topic_judge.jsonl")
+        sys.exit("every judge call failed, see the raw answers in judge.jsonl")
 
 
 def main():
@@ -108,7 +133,7 @@ def main():
     parser.add_argument("--base-url", default="http://127.0.0.1:8000/v1")
     parser.add_argument("--model", required=True, help="served model name")
     parser.add_argument("--slug", required=True, help="results sub-directory (predict) or name (judge) of the served model")
-    parser.add_argument("--predictions", help="judge: slug of the model whose topics are judged")
+    parser.add_argument("--predictions", help="judge: slug of the model whose predictions are judged")
     parser.add_argument("--no-thinking", action="store_true", help="pass enable_thinking=False to the chat template")
     parser.add_argument("--data", default="data/exercises.csv")
     parser.add_argument("--limit", type=int, help="first N exercises (smoke tests)")

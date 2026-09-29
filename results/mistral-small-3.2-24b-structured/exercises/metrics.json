@@ -1,120 +1,79 @@
 {
   "n": 100,
-  "n_failed": 0,
-  "subjects": {
-    "n_gold": 85,
-    "n_pred": 127,
-    "precision": 0.457,
-    "recall": 0.682,
-    "f1": 0.547
-  },
+  "n_failed_predictions": 0,
+  "judge": "qwen3.8-27b-fp8-structured",
+  "n_failed_judge_calls": 0,
   "genre": {
-    "n": 58,
-    "accuracy": 0.81,
-    "set_exact_match": 0.45,
+    "n": 59,
+    "macro_f1": 0.842,
     "confusion": {
-      "féminin -> féminin": 6,
-      "féminin et masculin -> féminin": 2,
-      "féminin et masculin -> féminin et masculin": 5,
+      "féminin -> féminin": 7,
+      "féminin et masculin -> féminin": 1,
+      "féminin et masculin -> féminin et masculin": 6,
       "féminin et masculin -> masculin": 2,
       "féminin et masculin -> neutre (objet)": 1,
-      "masculin -> masculin": 20,
+      "masculin -> masculin": 21,
       "masculin -> neutre (objet)": 2,
-      "neutre (objet) -> féminin": 3,
+      "neutre (objet) -> féminin": 1,
       "neutre (objet) -> féminin et masculin": 1,
-      "neutre (objet) -> neutre (objet)": 16
+      "neutre (objet) -> neutre (objet)": 17
     }
   },
   "origine": {
-    "n": 11,
-    "accuracy": 1.0,
-    "origin_given_to_unannotated_subject": 0,
+    "n": 59,
+    "macro_f1": 0.979,
     "confusion": {
-      "arabe / maghrébin -> arabe / maghrébin": 1,
-      "européen -> européen": 10
+      "GreaterAfrican -> GreaterAfrican": 1,
+      "GreaterEuropean -> GreaterEuropean": 9,
+      "GreaterEuropean -> pas un prénom": 1,
+      "pas un prénom -> pas un prénom": 48
     }
   },
   "pluriel": {
-    "accuracy": 0.8,
-    "macro_f1": 0.464,
+    "n": 100,
+    "macro_f1": 0.389,
     "confusion": {
-      "aucun -> aucun": 66,
+      "aucun -> aucun": 65,
       "aucun -> masculin": 2,
-      "inclusif -> aucun": 5,
-      "inclusif -> inclusif": 4,
-      "inclusif -> masculin": 11,
+      "aucun -> objets": 1,
+      "inclusif -> aucun": 4,
+      "inclusif -> inclusif": 1,
+      "inclusif -> masculin": 15,
       "masculin -> aucun": 1,
       "masculin -> masculin": 10,
       "objets -> aucun": 1
     }
   },
-  "traits": {
-    "n_gold": 12,
-    "accuracy": 0.48,
-    "precision": 0.177,
-    "recall": 0.917,
-    "f1": 0.297
-  },
   "monnaie": {
-    "exact_match": 1.0,
+    "n_gold": 27,
+    "n_pred": 27,
     "precision": 1.0,
     "recall": 1.0,
     "f1": 1.0
   },
   "unites": {
-    "exact_match": 0.81,
-    "precision": 0.578,
+    "n_gold": 26,
+    "n_pred": 44,
+    "precision": 0.591,
     "recall": 1.0,
-    "f1": 0.732
+    "f1": 0.743
   },
-  "topic_judge": {
-    "judge": "qwen3.8-27b-fp8-structured",
-    "model_vs_both": {
-      "n": 100,
-      "mean": 0.849,
-      "share_yes": 0.86
-    },
-    "model_vs_mai": {
-      "n": 99,
-      "mean": 0.723,
-      "share_yes": 0.707
-    },
-    "model_vs_tuan_tu": {
-      "n": 100,
-      "mean": 0.826,
-      "share_yes": 0.83
-    },
-    "mai_vs_tuan_tu": {
-      "n": 99,
-      "mean": 0.813,
-      "share_yes": 0.818
-    },
-    "model_vs_other_exercise": {
-      "n": 100,
-      "mean": 0.019,
-      "share_yes": 0.02
-    }
+  "subjects": {
+    "n_gold": 85,
+    "n_pred": 124,
+    "precision": 0.476,
+    "recall": 0.694,
+    "f1": 0.565
   },
-  "topic_similarity": {
-    "model_vs_both": {
-      "n": 100,
-      "mean": 0.838
-    },
-    "model_vs_mai": {
-      "n": 99,
-      "mean": 0.773
-    },
-    "model_vs_tuan_tu": {
-      "n": 100,
-      "mean": 0.808
-    },
-    "mai_vs_tuan_tu": {
-      "n": 99,
-      "mean": 0.795
-    },
-    "model_vs_other_exercise": {
-      "n": 100,
-      "mean": 0.464
-    }
+  "traits": {
+    "n_gold": 13,
+    "n_pred": 43,
+    "precision": 0.023,
+    "recall": 0.077,
+    "f1": 0.036
+  },
+  "topic": {
+    "n": 100,
+    "share_yes": 0.88
   }
 }

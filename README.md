@@ -105,9 +105,24 @@ The French math exercises of `data/exercises.csv` were annotated by two human an
 - **Instructions:** one prompt (`src/fairblabla/exercises.py`) defines each indicator and its allowed values.
 - **Structured output:** the answer is constrained by a JSON schema (vLLM structured outputs), so every field is always present and the categorical fields can only take the allowed values. The topic is free text.
 - **Models:** Qwen3.8-27B (FP8, no thinking) and Mistral Small 3.2 24B, both at temperature 0.
-- **Topic scoring:** since the topic is free text, it is scored by an LLM judge from the other model family (Mistral judges Qwen's topics and vice versa) and by the BGE-M3 cosine similarity with the annotators' topics.
+- **Free-text scoring:** subjects, traits and the topic are scored by an LLM judge from the other model family (Mistral judges Qwen's predictions and vice versa), which answers yes or no for each (predicted, gold) pair.
 
-Example (`ex064`):
+What the LLM predicts for each exercise:
+
+| Indicator | Predicted value | Task | Evaluation |
+|---|---|---|---|
+| Gender (per subject) | masculin, féminin, féminin et masculin, neutre (objet) | single-label classification | macro-F1 |
+| Name origin (per subject) |  classes of the Wikipedia name taxonomy (Ambekar et al., KDD 2009), or pas un prénom | single-label classification | macro-F1 |
+| Plural form | aucun, inclusif, masculin, objets | single-label classification | macro-F1 |
+| Currency |  euro, franc suisse, dollar, livre sterling, autre | multi-label classification | micro-F1 |
+| Units | système métrique, notes sur 20, degrés Celsius | multi-label classification | micro-F1 |
+| Subjects | at most 2 actors, in the words of the exercise | free text | LLM judge (F1) |
+| Traits (per subject) | at most 4 short traits | free text | LLM judge (F1) |
+| Topic | short noun phrase | free text | LLM judge (share of yes) |
+
+Per-subject indicators are scored on the predicted subjects that the judge matched to a gold subject. For lists of free text (subjects, traits), the judge matches each predicted item to the gold items and we report F1; for a single free-text value (topic), we report the share of yes.
+
+### Example (`ex064`):
 
 > **Course solidaire**
 >
@@ -117,11 +132,27 @@ Example (`ex064`):
 
 | Field | Human annotators | Qwen3.8-27B | Mistral Small 3.2 24B |
 |---|---|---|---|
-| Subject 1 | Emma, féminin, origin "English, French, Italian, Spanish, …" (européen) | Emma, féminin, pas un prénom | Emma, féminin, européen |
-| Traits of subject 1 | reçoit plus de dons | a reçu 3 fois plus de dons que Karim | collecte plus de dons |
-| Subject 2 | Karim, masculin, origin "Arabic, Persian, Tajik, …" (arabe / maghrébin) | Karim, masculin, arabe / maghrébin | Karim, masculin, arabe / maghrébin |
-| Traits of subject 2 | — | reçoit 15 € de plus; avait moins de dons au départ | collecte moins de dons |
-| Plural form | — | masculin | aucun |
+| Subject 1 | Emma, féminin, origin "English, French, Italian, Spanish, …" (GreaterEuropean) | Emma, féminin, French | Emma, féminin, French |
+| Traits of subject 1 | reçoit plus de dons | a reçu 3 fois plus de dons que Karim | a déjà reçu 3 fois plus de dons que Karim |
+| Subject 2 | Karim, masculin, origin "Arabic, Persian, Tajik, …" (GreaterAfrican) | Karim, masculin, Muslim | Karim, masculin, Muslim |
+| Plural form | — (aucun) | masculin | aucun |
 | Topic | "course solidaire" / "courrse solidaire, course" | Course solidaire et collecte de dons | collecte de dons |
 | Currency | euro | euro | euro |
 | Units | — | — | — |
+
+
+
+### Exercise annotation results
+
+
+| Indicator | Metric | Qwen3.8-27B | Mistral Small 3.2 24B |
+|---|---|---:|---:|
+| Gender | macro-F1 | 0.85 | 0.84 |
+| Name origin | macro-F1 | 1.00 | 0.98 |
+| Plural form | macro-F1 | 0.59 | 0.39 |
+| Currency | micro-F1 | 1.00 | 1.00 |
+| Units | micro-F1 | 0.93 | 0.74 |
+| Subjects | LLM judge (F1) | 0.72 | 0.57 |
+| Traits | LLM judge (F1) | 0.02 | 0.04 |
+| Topic | LLM judge (share of yes) | 0.95 | 0.88 |
+
